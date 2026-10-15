@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PAIA – Document Préliminaire – Spotify Clone</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0b0d10; color: #e6edf3; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; padding: 40px 20px; line-height: 1.8; }
+    .container { max-width: 1100px; margin: 0 auto; background: #161b22; border-radius: 24px; padding: 50px 45px; border: 1px solid #30363d; }
+    .header { text-align: center; padding-bottom: 30px; border-bottom: 2px solid #30363d; margin-bottom: 40px; }
+    .header h1 { font-size: 3rem; background: linear-gradient(135deg, #1DB954, #f0e6d0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+    .header .slogan { font-size: 1.2rem; color: #f0e6d0; font-style: italic; margin-bottom: 8px; }
+    .header .meta { color: #8b949e; font-size: 0.95rem; }
+    .header .meta a { color: #1DB954; text-decoration: none; }
+    h2 { font-size: 1.8rem; color: #f0e6d0; border-bottom: 2px solid #30363d; padding-bottom: 8px; margin: 45px 0 20px 0; }
+    h3 { font-size: 1.3rem; color: #1DB954; margin: 25px 0 12px 0; }
+    h4 { font-size: 1.1rem; color: #58a6ff; margin: 18px 0 8px 0; }
+    p { color: #c9d1d9; margin-bottom: 12px; }
+    ul, ol { color: #c9d1d9; padding-left: 25px; margin-bottom: 12px; }
+    li { margin-bottom: 6px; }
+    code { background: #1c2333; padding: 2px 8px; border-radius: 4px; color: #1DB954; font-family: 'Consolas', monospace; font-size: 0.9rem; }
+    .card { background: #0d1117; border-radius: 14px; padding: 20px 25px; margin: 15px 0; border-left: 5px solid #1DB954; }
+    .card.orange { border-left-color: #e2a53a; }
+    .card.blue { border-left-color: #58a6ff; }
+    .card.pink { border-left-color: #e91e63; }
+    .card.purple { border-left-color: #bc8cff; }
+    .card .titre-card { font-weight: 700; color: #f0e6d0; font-size: 1.1rem; margin-bottom: 8px; }
+    .tip { background: #1c2333; border-left: 4px solid #f0883e; padding: 12px 16px; border-radius: 8px; margin: 10px 0; color: #e6edf3; }
+    .tip strong { color: #f0883e; }
+    .tip .num { display: inline-block; background: #f0883e; color: #0b0d10; font-weight: 700; padding: 2px 10px; border-radius: 20px; margin-right: 8px; font-size: 0.85rem; }
+    .table { width: 100%; border-collapse: collapse; margin: 15px 0; background: #0d1117; border-radius: 12px; overflow: hidden; }
+    .table th { background: #1e4a7a; color: white; padding: 12px 16px; text-align: left; font-weight: 600; }
+    .table td { padding: 10px 16px; border-bottom: 1px solid #30363d; color: #c9d1d9; }
+    .table tr:last-child td { border-bottom: none; }
+    .schema { background: #0d1117; border-radius: 12px; padding: 20px; margin: 15px 0; font-family: 'Consolas', monospace; font-size: 0.85rem; color: #7ee787; white-space: pre; overflow-x: auto; border: 1px solid #30363d; }
+    .warning { background: #2d1b0e; border-left: 4px solid #f0883e; padding: 14px 18px; border-radius: 8px; margin: 15px 0; color: #f0e6d0; }
+    .warning strong { color: #f0883e; }
+    .info { background: #1c2333; border-left: 4px solid #58a6ff; padding: 14px 18px; border-radius: 8px; margin: 15px 0; color: #c9d1d9; }
+    .info strong { color: #58a6ff; }
+    .footer { margin-top: 50px; padding-top: 25px; border-top: 1px solid #30363d; text-align: center; color: #8b949e; font-size: 0.9rem; }
+    .footer .badge { background: #1c2333; padding: 4px 16px; border-radius: 40px; display: inline-block; margin-top: 8px; color: #1DB954; font-weight: 600; }
+    @media (max-width: 700px) { .container { padding: 25px 18px; } .header h1 { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ============================================================ -->
+  <!-- HEADER                                                       -->
+  <!-- ============================================================ -->
+  <div class="header">
+    <h1>🎵 Document Préliminaire</h1>
+    <div class="slogan">Spotify Clone · Flutter + Firebase</div>
+    <div class="meta">
+      Méthode PAIA – Document initial précédant le programme détaillé<br>
+      <a href="https://youtu.be/4TFbXepOjLI" target="_blank">🔗 Lien de la vidéo source</a>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 : RÉFÉRENCE DE LA SOURCE                          -->
+  <!-- ============================================================ -->
+  <h2>1. Référence de la source et contexte de l'auteur</h2>
+
+  <div class="card">
+    <div class="titre-card">📺 Source du projet</div>
+    <table class="table">
+      <tr><th>Élément</th><th>Détail</th></tr>
+      <tr><td><strong>Titre</strong></td><td>Build Spotify With Flutter – Bloc, Clean Architecture, Firebase, Figma</td></tr>
+      <tr><td><strong>Chaîne</strong></td><td>Dev Branch</td></tr>
+      <tr><td><strong>Durée</strong></td><td>7h27</td></tr>
+      <tr><td><strong>Date</strong></td><td>2 juillet 2024</td></tr>
+      <tr><td><strong>Vues</strong></td><td>223 741</td></tr>
+      <tr><td><strong>Likes</strong></td><td>5 911</td></tr>
+      <tr><td><strong>Lien</strong></td><td><a href="https://youtu.be/4TFbXepOjLI" target="_blank" style="color:#1DB954;">https://youtu.be/4TFbXepOjLI</a></td></tr>
+    </table>
+  </div>
+
+  <div class="card orange">
+    <div class="titre-card">👥 Auteurs du tutoriel</div>
+    <table class="table">
+      <tr><th>Auteur</th><th>Rôle</th><th>Contact</th></tr>
+      <tr><td><strong>Mahdi Nazmi</strong></td><td>Développeur principal</td><td>mahdiforwork@gmail.com · LinkedIn : /mahdinazmi</td></tr>
+      <tr><td><strong>Fabrice Sumsa</strong></td><td>Développeur / Designer</td><td>sumsa.fabrice@gmail.com · LinkedIn : /fabrice-sumsa</td></tr>
+    </table>
+    <p style="margin-top:10px;"><strong>Site officiel du code source :</strong> <a href="https://devbranch.dev/" target="_blank" style="color:#1DB954;">https://devbranch.dev/</a></p>
+    <p><strong>Dépôt GitHub :</strong> <code>mahdinazmi/Spotify-Clone-With-Flutter</code> (et dépôt de Fabrice)</p>
+  </div>
+
+  <div class="card blue">
+    <div class="titre-card">🎯 Contexte de l'auteur</div>
+    <p>Dev Branch est une chaîne YouTube spécialisée dans le développement Flutter avancé. Elle produit des tutoriels longs (5h à 10h) destinés aux développeurs souhaitant passer du niveau débutant au niveau professionnel.</p>
+    <p><strong>Philosophie du tutoriel :</strong> Ne pas se contenter de "faire fonctionner" une application, mais construire un <strong>vrai produit maintenable</strong> avec une architecture professionnelle.</p>
+    <p><strong>Tags du projet :</strong> <code>#flutter</code> · <code>#firebase</code> · <code>#bloc</code></p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2 : RENDU ATTENDU                                    -->
+  <!-- ============================================================ -->
+  <h2>2. Description ultradétaillée du rendu attendu</h2>
+
+  <p>Le rendu final est une <strong>application de streaming musical</strong> inspirée de Spotify, fonctionnant sur mobile (Android/iOS), avec un backend Firebase. Voici la description minutieuse, écran par écran, sous forme de <em>tips</em>.</p>
+
+  <h3>🎬 Écran 1 – Splash Screen</h3>
+  <div class="tip"><span class="num">Tip 1</span> Au lancement de l'app, un <strong>logo centré</strong> apparaît sur un fond vert Spotify (#1DB954) ou noir (#121212).</div>
+  <div class="tip"><span class="num">Tip 2</span> Une <strong>animation de chargement</strong> (spinner ou logo animé) tourne pendant 2 à 3 secondes.</div>
+  <div class="tip"><span class="num">Tip 3</span> Pendant cette pause, l'app vérifie si l'utilisateur est <strong>déjà connecté</strong> (session Firebase persistante).</div>
+  <div class="tip"><span class="num">Tip 4</span> Redirection automatique : si connecté → <strong>Home</strong>, sinon → <strong>Sign In</strong>.</div>
+
+  <h3>🔐 Écran 2 – Authentification</h3>
+  <div class="tip"><span class="num">Tip 5</span> La page <strong>Sign Up</strong> contient : email, mot de passe, confirmation, bouton "S'inscrire".</div>
+  <div class="tip"><span class="num">Tip 6</span> La page <strong>Sign In</strong> contient : email, mot de passe, bouton "Se connecter", lien "Créer un compte".</div>
+  <div class="tip"><span class="num">Tip 7</span> Les mots de passe sont <strong>masqués</strong> (<code>obscureText: true</code>).</div>
+  <div class="tip"><span class="num">Tip 8</span> Les erreurs Firebase sont affichées via <strong>SnackBar</strong> (email déjà utilisé, mot de passe faible, etc.).</div>
+
+  <h3>🏠 Écran 3 – Accueil</h3>
+  <div class="tip"><span class="num">Tip 9</span> Une <strong>AppBar</strong> avec le titre "Bonjour" ou le nom de l'utilisateur.</div>
+  <div class="tip"><span class="num">Tip 10</span> Une section <strong>"Recommandations"</strong> avec des pochettes de chansons en défilement horizontal.</div>
+  <div class="tip"><span class="num">Tip 11</span> Une section <strong>"Récentes"</strong> avec les dernières écoutes.</div>
+  <div class="tip"><span class="num">Tip 12</span> Une section <strong>"Playlists"</strong> avec les playlists de l'utilisateur.</div>
+  <div class="tip"><span class="num">Tip 13</span> Chaque chanson est affichée dans une <strong>carte</strong> avec : pochette, titre, artiste.</div>
+
+  <h3>🎧 Écran 4 – Lecteur Audio</h3>
+  <div class="tip"><span class="num">Tip 14</span> Une <strong>pochette</strong> de grande taille (300x300 px) centrée.</div>
+  <div class="tip"><span class="num">Tip 15</span> Le <strong>titre</strong> et l'<strong>artiste</strong> sous la pochette.</div>
+  <div class="tip"><span class="num">Tip 16</span> Une <strong>barre de progression</strong> (Slider) interactive.</div>
+  <div class="tip"><span class="num">Tip 17</span> Les boutons <strong>Previous, Play/Pause, Next</strong>.</div>
+  <div class="tip"><span class="num">Tip 18</span> Un bouton <strong>favori</strong> (cœur) et un bouton <strong>playlist</strong>.</div>
+  <div class="tip"><span class="num">Tip 19</span> Un <strong>mini-player</strong> persistant en bas de toutes les autres pages.</div>
+
+  <h3>❤️ Écran 5 – Favoris</h3>
+  <div class="tip"><span class="num">Tip 20</span> Liste des chansons mises en favori par l'utilisateur.</div>
+  <div class="tip"><span class="num">Tip 21</span> Chaque chanson peut être retirée des favoris par swipe ou bouton.</div>
+
+  <h3>📂 Écran 6 – Playlists</h3>
+  <div class="tip"><span class="num">Tip 22</span> Liste des playlists créées par l'utilisateur.</div>
+  <div class="tip"><span class="num">Tip 23</span> Possibilité de <strong>créer une playlist</strong> (bouton + / FAB).</div>
+  <div class="tip"><span class="num">Tip 24</span> Possibilité d'<strong>ajouter une chanson</strong> à une playlist existante.</div>
+
+  <h3>👤 Écran 7 – Profil</h3>
+  <div class="tip"><span class="num">Tip 25</span> Nom, email, photo de profil (ou avatar par défaut).</div>
+  <div class="tip"><span class="num">Tip 26</span> Bouton <strong>Modifier le profil</strong>.</div>
+  <div class="tip"><span class="num">Tip 27</span> Bouton <strong>Déconnexion</strong>.</div>
+
+  <div class="info">
+    <strong>🎨 Charte graphique Spotify :</strong> Vert signature <code>#1DB954</code>, noir profond <code>#121212</code>, gris foncé <code>#181818</code>, texte blanc <code>#FFFFFF</code>, texte secondaire gris clair <code>#B3B3B3</code>.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3 : NOTIONS ET OUTILS                                -->
+  <!-- ============================================================ -->
+  <h2>3. Bilan des notions et outils à utiliser</h2>
+
+  <h3>🧰 Outils de développement</h3>
+  <table class="table">
+    <tr><th>Outil</th><th>Rôle</th></tr>
+    <tr><td><strong>Flutter SDK</strong></td><td>Framework de développement cross-platform</td></tr>
+    <tr><td><strong>Dart</strong></td><td>Langage de programmation</td></tr>
+    <tr><td><strong>VS Code / Android Studio</strong></td><td>Éditeurs de code</td></tr>
+    <tr><td><strong>Git & GitHub</strong></td><td>Versionnement du code</td></tr>
+    <tr><td><strong>Figma</strong></td><td>Conception UI/UX (maquettes)</td></tr>
+    <tr><td><strong>Firebase Console</strong></td><td>Backend (Auth, Firestore, Storage)</td></tr>
+    <tr><td><strong>FlutterFire CLI</strong></td><td>Génération de <code>firebase_options.dart</code></td></tr>
+  </table>
+
+  <h3>📦 Packages Flutter à utiliser</h3>
+  <table class="table">
+    <tr><th>Package</th><th>Version</th><th>Rôle</th></tr>
+    <tr><td><code>flutter_bloc</code></td><td>^8.1.3</td><td>Gestion d'état (Cubit + Bloc)</td></tr>
+    <tr><td><code>equatable</code></td><td>^2.0.5</td><td>Comparaison d'objets (états)</td></tr>
+    <tr><td><code>firebase_core</code></td><td>^3.12.1</td><td>Initialisation Firebase</td></tr>
+    <tr><td><code>firebase_auth</code></td><td>^5.5.1</td><td>Authentification</td></tr>
+    <tr><td><code>cloud_firestore</code></td><td>^5.6.5</td><td>Base de données NoSQL</td></tr>
+    <tr><td><code>firebase_storage</code></td><td>^12.4.4</td><td>Stockage des fichiers audio et images</td></tr>
+    <tr><td><code>just_audio</code></td><td>^0.9.36</td><td>Lecture audio (streaming + local)</td></tr>
+    <tr><td><code>audio_service</code></td><td>^0.18.15</td><td>Lecture en arrière-plan</td></tr>
+  </table>
+
+  <h3>🧠 Notions techniques à maîtriser</h3>
+  <div class="card purple">
+    <div class="titre-card">Architecture & Design Patterns</div>
+    <ul>
+      <li><strong>Clean Architecture</strong> : séparation en 3 couches (domain, data, presentation)</li>
+      <li><strong>Repository Pattern</strong> : abstraction de la source de données</li>
+      <li><strong>Use Cases</strong> : encapsulation des actions métier</li>
+      <li><strong>Dependency Injection</strong> : injection des dépendances à travers les couches</li>
+      <li><strong>Data Model / Entity</strong> : séparation entre données brutes et objets métier</li>
+    </ul>
+  </div>
+
+  <div class="card pink">
+    <div class="titre-card">Gestion d'état</div>
+    <ul>
+      <li><strong>Cubit</strong> : version simplifiée de Bloc (méthodes → états)</li>
+      <li><strong>Bloc</strong> : version complète (événements → états)</li>
+      <li><strong>BlocProvider</strong> : enregistrement des Cubits</li>
+      <li><strong>BlocBuilder</strong> : reconstruction de l'UI selon l'état</li>
+      <li><strong>BlocListener</strong> : réactions aux changements d'état</li>
+    </ul>
+  </div>
+
+  <div class="card blue">
+    <div class="titre-card">Firebase</div>
+    <ul>
+      <li><strong>Firebase Auth</strong> : inscription, connexion, déconnexion</li>
+      <li><strong>Cloud Firestore</strong> : lecture/écriture en temps réel</li>
+      <li><strong>Firebase Storage</strong> : upload et streaming des fichiers audio</li>
+      <li><strong>Règles de sécurité</strong> : mode test puis mode production</li>
+    </ul>
+  </div>
+
+  <div class="card orange">
+    <div class="titre-card">Audio</div>
+    <ul>
+      <li><strong>just_audio</strong> : lecture audio (setUrl, setAsset, play, pause, seek)</li>
+      <li><strong>audio_service</strong> : lecture en arrière-plan, notifications</li>
+      <li><strong>Stream de position</strong> : pour la barre de progression en temps réel</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="titre-card">UI / UX</div>
+    <ul>
+      <li><strong>ListView.builder</strong> : listes performantes</li>
+      <li><strong>Hero animation</strong> : transitions fluides</li>
+      <li><strong>FadeInImage</strong> : chargement d'images avec fondu</li>
+      <li><strong>ThemeData</strong> : thème global cohérent</li>
+      <li><strong>Mini-player</strong> : widget persistant en bas d'écran</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 : LOGIQUE DE CONCEPTION                            -->
+  <!-- ============================================================ -->
+  <h2>4. Logique complète derrière la conception du produit</h2>
+
+  <p>Pourquoi construire ce projet avec cette architecture ? Voici la logique fondamentale, expliquée point par point.</p>
+
+  <h3>🎯 Objectif stratégique</h3>
+  <div class="card">
+    <div class="titre-card">Passer du "débutant qui fait fonctionner" au "professionnel qui construit"</div>
+    <p>La plupart des tutoriels Flutter montrent comment faire une app qui <strong>fonctionne</strong>. Ce tutoriel montre comment faire une app qui <strong>dure</strong>. La différence réside dans :</p>
+    <ul>
+      <li><strong>La testabilité</strong> : le code peut être testé couche par couche.</li>
+      <li><strong>La maintenabilité</strong> : un bug dans Firebase ne casse pas l'UI.</li>
+      <li><strong>La scalabilité</strong> : on peut ajouter des fonctionnalités sans tout casser.</li>
+    </ul>
+  </div>
+
+  <h3>🏗️ Logique de la Clean Architecture</h3>
+  <div class="card orange">
+    <div class="titre-card">Pourquoi 3 couches ?</div>
+    <div class="schema">┌─────────────────────────────────────────┐
+│         PRESENTATION (UI + Cubit)       │  ← Ce que l'utilisateur voit
+│         - Pages                         │
+│         - Widgets                       │
+│         - Cubits                        │
+└────────────────┬────────────────────────┘
+                 │ dépend de ↓
+┌─────────────────────────────────────────┐
+│         DOMAIN (Métier pur)             │  ← Règles métier
+│         - Entités (Song, User)          │
+│         - Repositories (abstraits)      │
+│         - Use Cases                     │
+└────────────────┬────────────────────────┘
+                 │ dépend de ↑
+┌─────────────────────────────────────────┐
+│         DATA (Implémentation)           │  ← Firebase, etc.
+│         - Data Sources                  │
+│         - Models                        │
+│         - Repository Implementations    │
+└─────────────────────────────────────────┘</div>
+    <ul>
+      <li><strong>Domain</strong> : ne dépend de rien. Code pur, testable, indépendant de Firebase.</li>
+      <li><strong>Data</strong> : dépend du domain. Contient l'implémentation concrète (Firebase).</li>
+      <li><strong>Presentation</strong> : dépend du domain. Affiche l'UI.</li>
+    </ul>
+    <p><strong>Règle d'or :</strong> Les dépendances vont toujours <em>vers le domain</em>, jamais l'inverse.</p>
+  </div>
+
+  <h3>📦 Logique du Repository Pattern</h3>
+  <div class="card blue">
+    <div class="titre-card">Pourquoi un repository abstrait ?</div>
+    <p>Le repository abstrait <strong>définit ce que l'app peut faire</strong>, sans dire <strong>comment</strong>.</p>
+    <div class="schema">abstract class SongRepository {
+  Future&lt;List&lt;Song&gt;&gt; getSongs();
+}</div>
+    <p>Le Cubit ne connaît que cette interface. Il ne sait pas si les données viennent de Firebase, d'une API locale, ou d'un fichier JSON. Cela permet :</p>
+    <ul>
+      <li>De <strong>tester</strong> le Cubit avec un faux repository.</li>
+      <li>De <strong>changer</strong> de source de données sans toucher au Cubit.</li>
+      <li>De <strong>paralléliser</strong> le développement (une équipe fait Firebase, une autre l'UI).</li>
+    </ul>
+  </div>
+
+  <h3>🎛️ Logique de Bloc / Cubit</h3>
+  <div class="card pink">
+    <div class="titre-card">Pourquoi pas setState ?</div>
+    <p><code>setState</code> est parfait pour une petite app. Mais dès que l'app grandit, il devient ingérable :</p>
+    <ul>
+      <li>Le code UI et la logique métier se mélangent.</li>
+      <li>Impossible de tester la logique sans lancer l'UI.</li>
+      <li>Les rebuilds sont incontrôlés.</li>
+    </ul>
+    <p>Avec Cubit, la logique est <strong>séparée</strong> de l'UI. Le Cubit émet des états, l'UI réagit. On peut tester le Cubit sans lancer l'app.</p>
+  </div>
+
+  <h3>🔥 Logique de Firebase</h3>
+  <div class="card purple">
+    <div class="titre-card">Pourquoi Firebase ?</div>
+    <ul>
+      <li><strong>Firebase Auth</strong> : gestion complète de l'authentification (sessions, tokens, sécurité).</li>
+      <li><strong>Firestore</strong> : base de données NoSQL temps réel, scalable.</li>
+      <li><strong>Storage</strong> : hébergement des fichiers audio et images.</li>
+      <li><strong>Gratuit</strong> pour commencer (plan Spark).</li>
+    </ul>
+    <p>Firebase évite d'avoir à coder un backend (Node.js, Django, etc.). L'app parle directement à Firebase.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5 : FONCTIONNEMENT DU PRODUIT                        -->
+  <!-- ============================================================ -->
+  <h2>5. Description du fonctionnement du produit</h2>
+
+  <p>Voici le parcours utilisateur complet, étape par étape, de l'ouverture de l'app à la lecture d'une chanson.</p>
+
+  <h3>🔄 Parcours utilisateur complet</h3>
+
+  <div class="card">
+    <div class="titre-card">Étape 1 – Lancement de l'app</div>
+    <ol>
+      <li>L'utilisateur ouvre l'application.</li>
+      <li>Le <strong>Splash Screen</strong> s'affiche pendant 2 secondes.</li>
+      <li>En arrière-plan, <code>FirebaseAuth.instance.currentUser</code> est vérifié.</li>
+      <li>Si un utilisateur est connecté → <strong>HomePage</strong>.</li>
+      <li>Sinon → <strong>SignInPage</strong>.</li>
+    </ol>
+  </div>
+
+  <div class="card orange">
+    <div class="titre-card">Étape 2 – Inscription / Connexion</div>
+    <ol>
+      <li>L'utilisateur remplit le formulaire d'inscription.</li>
+      <li>Il clique sur "S'inscrire".</li>
+      <li>Le <code>AuthCubit</code> appelle <code>signUpWithEmailAndPassword</code>.</li>
+      <li>Firebase crée un compte utilisateur.</li>
+      <li>Le nom est enregistré via <code>updateDisplayName</code>.</li>
+      <li>Redirection vers <strong>HomePage</strong>.</li>
+    </ol>
+  </div>
+
+  <div class="card blue">
+    <div class="titre-card">Étape 3 – Affichage des chansons</div>
+    <ol>
+      <li>Sur <strong>HomePage</strong>, <code>HomeCubit.loadSongs()</code> est appelé.</li>
+      <li>Le Cubit appelle <code>GetSongs</code> (use case).</li>
+      <li>Le use case appelle <code>SongRepository.getSongs()</code>.</li>
+      <li>L'implémentation appelle <code>SongRemoteDataSource</code> (Firestore).</li>
+      <li>Firestore renvoie les documents de la collection <code>songs</code>.</li>
+      <li>Chaque document est converti en <code>Song</code> via <code>SongModel.fromJson</code>.</li>
+      <li>La liste est émise via <code>HomeLoaded(songs)</code>.</li>
+      <li>L'UI affiche les cartes de chansons.</li>
+    </ol>
+  </div>
+
+  <div class="card pink">
+    <div class="titre-card">Étape 4 – Lecture d'une chanson</div>
+    <ol>
+      <li>L'utilisateur clique sur une chanson.</li>
+      <li>Le <code>PlayerCubit.playSong(song)</code> est appelé.</li>
+      <li><code>just_audio</code> charge l'URL (Firebase Storage) via <code>setUrl</code>.</li>
+      <li>La lecture démarre.</li>
+      <li>Un <code>positionStream</code> met à jour la position en temps réel.</li>
+      <li>Le mini-player apparaît en bas de l'écran.</li>
+      <li>La <strong>PlayerPage</strong> affiche la pochette, le titre, l'artiste, la barre de progression.</li>
+    </ol>
+  </div>
+
+  <div class="card purple">
+    <div class="titre-card">Étape 5 – Ajout aux favoris</div>
+    <ol>
+      <li>L'utilisateur clique sur le cœur d'une chanson.</li>
+      <li>Le <code>FavoritesCubit.addFavorite(song)</code> est appelé.</li>
+      <li>Le favori est enregistré dans Firestore (collection <code>favorites</code>).</li>
+      <li>Le cœur devient rouge.</li>
+      <li>La chanson apparaît dans <strong>FavoritesPage</strong>.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="titre-card">Étape 6 – Création d'une playlist</div>
+    <ol>
+      <li>L'utilisateur va sur <strong>PlaylistsPage</strong>.</li>
+      <li>Il clique sur le FAB (+).</li>
+      <li>Une boîte de dialogue demande le nom.</li>
+      <li>Le <code>PlaylistCubit.createPlaylist(nom)</code> est appelé.</li>
+      <li>La playlist est enregistrée dans Firestore.</li>
+      <li>Elle apparaît dans la liste.</li>
+    </ol>
+  </div>
+
+  <div class="card orange">
+    <div class="titre-card">Étape 7 – Déconnexion</div>
+    <ol>
+      <li>L'utilisateur va sur <strong>ProfilePage</strong>.</li>
+      <li>Il clique sur "Déconnexion".</li>
+      <li>Le <code>AuthCubit.signOut()</code> est appelé.</li>
+      <li><code>FirebaseAuth.instance.signOut()</code> est exécuté.</li>
+      <li>Redirection automatique vers <strong>SignInPage</strong> (via StreamBuilder).</li>
+    </ol>
+  </div>
+
+  <h3>🔗 Flux de données global</h3>
+  <div class="schema">[UI - Page]
+    ↓ (utilisateur clique)
+[Cubit]
+    ↓ (appelle)
+[Use Case]
+    ↓ (appelle)
+[Repository]
+    ↓ (appelle)
+[Data Source]
+    ↓ (communique avec)
+[Firebase / Local]
+    ↑ (retourne les données)
+[Model → Entity]
+    ↑ (converti)
+[Repository]
+    ↑ (retourne)
+[Use Case]
+    ↑ (retourne)
+[Cubit]
+    ↑ (emit State)
+[UI - BlocBuilder]
+    → Reconstruit l'écran</div>
+
+  <h3>📊 Points critiques du fonctionnement</h3>
+  <div class="warning">
+    <strong>⚠️ Attention :</strong> Le <strong>positionStream</strong> de <code>just_audio</code> émet la position à intervalles très courts (toutes les 200ms environ). Si on émet un nouvel état <code>PlayerPlaying</code> à chaque émission, on rebuild l'UI très fréquemment. C'est acceptable pour cet écran, mais il faut en être conscient.
+  </div>
+
+  <div class="warning">
+    <strong>⚠️ Attention :</strong> Les <strong>règles Firestore en mode test</strong> expirent après 30 jours. Il faudra les passer en mode production avec des règles strictes (seul le propriétaire peut lire/écrire ses données).
+  </div>
+
+  <div class="warning">
+    <strong>⚠️ Attention :</strong> La lecture en arrière-plan via <code>audio_service</code> nécessite des <strong>permissions Android</strong> (FOREGROUND_SERVICE, WAKE_LOCK) à ajouter dans <code>AndroidManifest.xml</code>.
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CONCLUSION                                                   -->
+  <!-- ============================================================ -->
+  <h2>✅ Conclusion du document préliminaire</h2>
+
+  <div class="card">
+    <p>Ce document pose les <strong>fondations du projet Spotify Clone</strong>. Il servira de référence pour :</p>
+    <ul>
+      <li>La construction du <strong>programme détaillé</strong> (modules, leçons, notions).</li>
+      <li>La <strong>structuration de l'arborescence</strong> du code.</li>
+      <li>La <strong>planification des leçons</strong> selon l'ordre du tutoriel.</li>
+      <li>La <strong>cohérence globale</strong> entre les modules (éviter les redondances comme <code>core/cubit/</code>).</li>
+    </ul>
+    <p><strong>Prochaine étape :</strong> Construire le programme détaillé, module par module, leçon par leçon, notion par notion, en suivant <strong>fidèlement</strong> la structure du tutoriel.</p>
+  </div>
+
+  <div class="info">
+    <strong>📌 Rappel :</strong> Ce document est le <strong>document initial PAIA</strong>. Il précède toujours le programme détaillé. Aucune notion, aucun code, aucun module ne doit être construit sans qu'il ne soit cohérent avec ce document.
+  </div>
+
+  <div class="footer">
+    <p><strong>PAIA · Document Préliminaire</strong> – Spotify Clone</p>
+    <p style="margin-top:4px;">Document généré par PAIA · 2026</p>
+    <div class="badge">#programmer sans subir</div>
+  </div>
+
+</div>
+</body>
+</html>

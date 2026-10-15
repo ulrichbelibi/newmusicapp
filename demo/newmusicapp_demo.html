@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f26d3d">
+  <title>NewMusicApp</title>
+  <style>
+    :root {
+      --sky: #dff4ff;
+      --sky-strong: #cfeef9;
+      --pink: #f14d8a;
+      --pink-dark: #d83d7b;
+      --orange: #f26d3d;
+      --teal: #2bb7a7;
+      --yellow: #f9c93f;
+      --ink: #17191d;
+      --muted: #4f5860;
+      --paper: #fff;
+      --line: #dfeaf0;
+      --shadow: 0 12px 32px #16445a16;
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      background: #e7eaec;
+      font: 14px/1.45 "Segoe UI", Arial, sans-serif;
+    }
+    button, input { font: inherit; }
+    .phone-stage {
+      width: 100%;
+      height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 8px;
+    }
+    .phone-shell {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: min(390px, calc(100vw - 16px), calc((100dvh - 16px) * .475));
+      height: min(820px, calc(100dvh - 16px));
+      margin: 0 auto;
+      overflow: hidden;
+      border: 8px solid #111827;
+      border-radius: 34px;
+      background: var(--sky);
+      box-shadow: 0 24px 60px rgba(17, 24, 39, .18);
+    }
+    .android-status {
+      display: flex;
+      flex: 0 0 27px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      color: #fff;
+      background: var(--orange);
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: .02em;
+    }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible {
+      outline: 3px solid #8d3fbe;
+      outline-offset: 2px;
+    }
+    .app-shell {
+      position: relative;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      width: 100%;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .topbar {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      margin: 0;
+      padding: 6px 10px 6px 12px; /* small left space for back button */
+      border: 0;
+      border-radius: 0;
+      background: var(--orange);
+      box-shadow: none;
+    }
+    .back-button {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      margin-right: 6px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: #fff;
+      font-size: 1.05rem;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+    .back-button:hover { background: rgba(255,255,255,0.06); }
+    .brand { display: flex; min-width: 0; align-items: center; gap: 6px; }
+    .brand { display: flex; min-width: 0; align-items: center; gap: 6px; }
+    .brand-mark {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 9px;
+      color: #fff;
+      background: var(--pink);
+      font-size: 16px;
+    }
+    .brand h1 { margin: 0; color: #fff; font-size: .82rem; line-height: 1.2; white-space: nowrap; }
+    .brand p { display: none; }
+    .account-tools { display: flex; flex: 0 0 auto; align-items: center; gap: 4px; }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+    .user-avatar {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--pink);
+      font-size: .72rem;
+      font-weight: 700;
+    }
+    .account-tools .button { min-height: 28px; padding: 4px 7px; font-size: .68rem; white-space: nowrap; }
+    .account-tools .button.secondary { border: 0; color: #fff; background: transparent; }
+    .account-tools .button.secondary:hover { background: #db6034; }
+    .layout {
+      display: flex;
+      order: 2;
+      flex: 1;
+      flex-direction: column;
+      min-height: 0;
+      gap: 0;
+    }
+    .layout.logged-out { display: flex; }
+    .sidebar, .main-panel, .player {
+      border: 0;
+      background: #fff;
+      box-shadow: none;
+    }
+    .sidebar {
+      order: 2;
+      display: flex;
+      flex: 0 0 auto;
+      align-items: stretch;
+      justify-content: space-around;
+      gap: 3px;
+      padding: 5px 7px 7px;
+      border: 0;
+      border-top: 1px solid var(--line);
+      border-radius: 0;
+      background: #fff;
+      box-shadow: none;
+    }
+    .nav-group-title {
+      margin: 14px 10px 7px;
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+    .nav-button {
+      display: flex;
+      width: auto;
+      min-width: 0;
+      flex: 1;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      padding: 5px 2px;
+      border: 0;
+      border-radius: 9px;
+      color: var(--ink);
+      background: transparent;
+      font-size: .67rem;
+      line-height: 1.2;
+      text-align: center;
+    }
+    .nav-button:hover, .nav-button.active { color: var(--pink-dark); background: #ffeaf2; }
+    .nav-icon { width: auto; text-align: center; font-size: 1.12rem; line-height: 1.2; }
+    .nav-group-title, .sidebar-divider, .side-playlists-wrap { display: none; }
+    .sidebar [data-view="playlists"] { display: flex; }
+    .side-playlist {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 9px 10px;
+      border: 0;
+      border-radius: 10px;
+      color: var(--ink);
+      background: transparent;
+      text-align: left;
+    }
+    .side-playlist:hover { background: #eefaff; }
+    .side-count { color: var(--muted); font-size: .8rem; }
+    .main-panel {
+      order: 1;
+      flex: 1;
+      min-width: 0;
+      min-height: 0;
+      padding: 12px;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background: var(--sky);
+    }
+    .welcome {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 0;
+      padding: 13px;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .welcome h2 { margin: 0 0 3px; color: var(--pink-dark); font-size: 1.2rem; }
+    .welcome p { max-width: 650px; margin: 0; color: #24272c; font-size: .84rem; }
+    .welcome-note { flex: 0 0 auto; color: var(--pink-dark); font-size: 1.8rem; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 16px 0 9px;
+    }
+    .section-head h2, .page-title { margin: 0; color: var(--pink-dark); font-size: 1.05rem; }
+    .section-head { padding-bottom: 7px; border-bottom: 1px solid var(--line); }
+    .section-head p { margin: 2px 0 0; color: var(--muted); font-size: .76rem; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+    .search {
+      width: 100%;
+      min-width: 0;
+      padding: 8px 11px;
+      border: 1px solid #bad8e0;
+      border-radius: 10px;
+      color: var(--ink);
+      background: #fff;
+      font-size: .85rem;
+    }
+    .button {
+      display: inline-flex;
+      min-height: 36px;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 8px 12px;
+      border: 0;
+      border-radius: 10px;
+      color: #fff;
+      background: var(--pink);
+      font-size: .82rem;
+      font-weight: 700;
+      transition: transform .15s, background .15s;
+    }
+    .button:hover { transform: translateY(-1px); background: var(--pink-dark); }
+    .button:disabled { cursor: not-allowed; opacity: .55; transform: none; }
+    .button.secondary {
+      border: 1px solid #efb3ca;
+      color: var(--pink-dark);
+      background: #fff;
+    }
+    .button.secondary:hover { background: #fff0f5; }
+    .button.icon-only { width: 40px; padding: 0; font-size: 1.08rem; }
+    .song-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 8px;
+    }
+    .song-card {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      grid-template-rows: 1fr auto;
+      align-items: center;
+      column-gap: 7px;
+      width: 100%;
+      max-width: none;
+      min-width: 0;
+      min-height: 52px;
+      padding: 4px;
+      border: 1px solid #e2e8eb;
+      border-radius: 10px;
+      background: #fff;
+      transition: transform .17s, box-shadow .17s;
+    }
+    .song-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px #18475a17; }
+    .cover-wrap { position: relative; grid-row: 1 / 3; width: 42px; }
+    .cover {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 7px;
+      object-fit: cover;
+      background: var(--sky);
+    }
+    .cover-play {
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      width: 19px;
+      height: 19px;
+      border: 0;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--pink);
+      font-size: 8px;
+      box-shadow: 0 4px 12px #0003;
+    }
+    .song-meta { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 4px; padding-top: 0; }
+    .song-meta h3 { overflow: hidden; margin: 0; color: var(--pink-dark); font-size: .7rem; text-overflow: ellipsis; white-space: nowrap; }
+    .song-meta p { margin: 1px 0 0; color: #282b30; font-size: .62rem; }
+    .heart-button {
+      flex: 0 0 auto;
+      width: 20px;
+      height: 20px;
+      border: 0;
+      border-radius: 50%;
+      color: #8a8e94;
+      background: transparent;
+      font-size: .78rem;
+    }
+    .heart-button:hover, .heart-button.is-favorite { color: var(--pink); background: #fff0f5; }
+    .duration { grid-column: 2; margin-top: 0; color: var(--muted); font-size: .58rem; }
+    .empty-state {
+      padding: 40px 20px;
+      border: 1px dashed #a9d8e3;
+      border-radius: 16px;
+      color: #2a3035;
+      background: #f5fcfe;
+      text-align: center;
+    }
+    .empty-state strong { display: block; margin-bottom: 5px; color: var(--pink-dark); font-size: 1.1rem; }
+    .playlist-grid { display: grid; grid-template-columns: 1fr; gap: 9px; }
+    .playlist-card {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+      padding: 9px;
+      border: 1px solid #e1e8eb;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .playlist-art {
+      display: grid;
+      flex: 0 0 auto;
+      width: 64px;
+      height: 64px;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 12px;
+      color: #fff;
+      background: var(--pink);
+      font-size: 1.35rem;
+    }
+    .playlist-art img { width: 100%; height: 100%; object-fit: cover; }
+    .playlist-info { flex: 1; min-width: 0; cursor: pointer; }
+    .playlist-info h3 { overflow: hidden; margin: 0; color: var(--pink-dark); text-overflow: ellipsis; white-space: nowrap; }
+    .playlist-info p { margin: 4px 0 0; color: var(--muted); font-size: .84rem; }
+    .playlist-actions { display: flex; gap: 5px; }
+    .playlist-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding: 10px;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .playlist-head .playlist-art { width: 64px; height: 64px; font-size: 1.4rem; }
+    .playlist-head h2 { margin: 0; color: var(--pink-dark); font-size: 1.15rem; }
+    .playlist-head p { margin: 3px 0 8px; color: var(--muted); font-size: .78rem; }
+    .playlist-head .toolbar { align-items: stretch; }
+    .playlist-track-list { display: grid; gap: 6px; }
+    .track-row {
+      display: grid;
+      grid-template-columns: 22px 36px minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: 7px;
+      padding: 6px;
+      border-radius: 10px;
+      background: #fff;
+    }
+    .track-row:hover, .track-row.current { background: #fff0f5; }
+    .track-number { color: var(--muted); text-align: center; }
+    .track-cover { width: 36px; height: 36px; border-radius: 7px; object-fit: cover; }
+    .track-title { min-width: 0; cursor: pointer; }
+    .track-title strong { display: block; overflow: hidden; color: var(--pink-dark); text-overflow: ellipsis; white-space: nowrap; }
+    .track-title span { color: #292d32; font-size: .84rem; }
+    .track-duration { color: var(--muted); font-size: .82rem; }
+    .profile-card {
+      max-width: 520px;
+      margin: 10px auto;
+      padding: 12px;
+      border: 1px solid #dfebee;
+      border-radius: 16px;
+      background: #fff;
+      text-align: center;
+    }
+    .profile-card .user-avatar { width: 46px; height: 46px; margin: auto; font-size: 1.1rem; }
+    .profile-card h2 { margin: 8px 0 2px; color: var(--pink-dark); font-size: .98rem; }
+    .profile-card p { color: var(--muted); font-size: .86rem; }
+    .auth-wrap {
+      display: grid;
+      width: 100%;
+      min-height: 100%;
+      align-content: center;
+      justify-items: center;
+      padding: 10px 0;
+    }
+    .auth-card {
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #dce9ee;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: none;
+    }
+    .auth-logo {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      margin: 0 auto 10px;
+      border-radius: 14px;
+      color: #fff;
+      background: var(--pink);
+      font-size: 24px;
+    }
+    .auth-card h2 { margin: 0; color: var(--pink-dark); text-align: center; }
+    .auth-card > p { margin: 4px 0 13px; color: #202326; font-size: .84rem; text-align: center; }
+    .auth-card label { display: block; margin: 9px 0 4px; color: #17191d; font-size: .82rem; font-weight: 650; }
+    .auth-field {
+      position: relative;
+    }
+    .auth-card input {
+      width: 100%;
+      padding: 9px 10px;
+      padding-right: 40px;
+      border: 1px solid #a9d4df;
+      border-radius: 10px;
+      color: var(--ink);
+      background: #fff;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-size: 1rem;
+      padding: 6px;
+      cursor: pointer;
+    }
+    .auth-card .button { width: 100%; margin-top: 12px; }
+    .auth-switch { display: block; width: 100%; margin-top: 7px; border: 0; color: var(--pink-dark); background: transparent; font-size: .82rem; font-weight: 700; }
+    .auth-error { min-height: 20px; margin: 10px 0 0 !important; color: #b42318 !important; font-size: .86rem; text-align: left !important; }
+    .splash-screen {
+      position: fixed;
+      z-index: 20;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: #edf8ff;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+    .splash-screen.done { visibility: hidden; opacity: 0; }
+    .splash-content {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: min(390px, calc(100vw - 16px), calc((100dvh - 16px) * .475));
+      height: min(820px, calc(100dvh - 16px));
+      padding: 27px 12px 12px;
+      overflow: hidden;
+      border: 8px solid #111827;
+      border-radius: 34px;
+      background: var(--sky);
+      box-shadow: 0 24px 60px rgba(17, 24, 39, .18);
+      animation: splash-in .65s ease;
+    }
+    .splash-status {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      height: 27px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      color: #fff;
+      background: var(--orange);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .splash-logo {
+      width: min(210px, 90%);
+      height: auto;
+      display: block;
+      object-fit: contain;
+      filter: none;
+      background: transparent;
+    }
+    @keyframes splash-in { from { opacity: 0; } to { opacity: 1; } }
+    .player {
+      order: 1;
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 4px 8px;
+      margin: 0;
+      padding: 6px 10px 4px;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      background: #fff;
+    }
+    .now-playing { display: flex; align-items: center; gap: 8px; min-width: 0; }
+    .now-playing img { width: 38px; height: 38px; border-radius: 7px; object-fit: cover; background: var(--sky); }
+    .now-playing strong { display: block; overflow: hidden; color: var(--pink-dark); font-size: .82rem; text-overflow: ellipsis; white-space: nowrap; }
+    .now-playing span { display: block; overflow: hidden; color: var(--muted); font-size: .7rem; text-overflow: ellipsis; white-space: nowrap; }
+    .player-center { min-width: 0; }
+    .player-center { grid-column: 1 / -1; }
+    .player-buttons { display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .player-button {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      border-radius: 50%;
+      color: var(--pink-dark);
+      background: transparent;
+      font-size: .8rem;
+    }
+    .player-button:hover, .player-button.enabled { color: #fff; background: var(--pink); }
+    .player-button.main {
+      width: 32px;
+      height: 32px;
+      color: #fff;
+      background: var(--pink);
+      font-size: .9rem;
+    }
+    .timeline { display: grid; grid-template-columns: 30px 1fr 30px; align-items: center; gap: 6px; color: var(--muted); font-size: .66rem; }
+    input[type="range"] { width: 100%; accent-color: var(--pink); }
+    .player-mode { display: none; }
+    .app-shell.auth-view .player, .app-shell.auth-view .sidebar { display: none; }
+    .nav-button[data-view="auth"] { display: flex; }
+    .android-gesture {
+      display: grid;
+      flex: 0 0 14px;
+      place-items: center;
+      background: #fff;
+    }
+    .android-gesture::after {
+      width: 108px;
+      height: 4px;
+      border-radius: 999px;
+      background: #1b1b1b;
+      content: "";
+    }
+    dialog {
+      width: min(520px, calc(100% - 28px));
+      max-height: min(82vh, 780px);
+      padding: 0;
+      overflow: auto;
+      border: 1px solid #add7e1;
+      border-radius: 20px;
+      color: var(--ink);
+      background: var(--sky);
+      box-shadow: 0 24px 80px #0e304455;
+    }
+    dialog::backdrop { background: #102c3e80; backdrop-filter: blur(3px); }
+    .dialog-content { padding: 23px; }
+    .dialog-content h2 { margin: 0; color: var(--pink-dark); font-size: 1.35rem; }
+    .dialog-description { margin: 5px 0 17px; color: #20262a; }
+    .dialog-content label { display: block; margin: 12px 0 5px; color: #16191d; font-weight: 650; }
+    .dialog-content input[type="email"], .dialog-content input[type="password"], .dialog-content input[type="text"] {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #a9d4df;
+      border-radius: 10px;
+      color: var(--ink);
+      background: #fff;
+    }
+    .dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+    .check-list { display: grid; max-height: 45vh; gap: 7px; overflow: auto; }
+    .check-song {
+      display: flex !important;
+      align-items: center;
+      gap: 10px;
+      margin: 0 !important;
+      padding: 8px;
+      border: 1px solid #b6dce5;
+      border-radius: 12px;
+      background: #ffffffc9;
+      cursor: pointer;
+    }
+    .check-song img { width: 42px; height: 42px; border-radius: 8px; object-fit: cover; }
+    .check-song span { color: var(--ink); font-weight: 400; }
+    .toast {
+      position: fixed;
+      z-index: 10;
+      right: 22px;
+      bottom: 112px;
+      max-width: min(420px, calc(100% - 44px));
+      padding: 12px 16px;
+      transform: translateY(12px);
+      border-radius: 12px;
+      color: #fff;
+      background: #252a30;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: .18s;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .hidden { display: none !important; }
+    @media (max-height: 700px) {
+      .phone-shell { border-width: 5px; border-radius: 26px; }
+      .android-status { flex-basis: 22px; }
+      .splash-content { border-width: 5px; border-radius: 26px; padding-top: 22px; }
+      .splash-status { height: 22px; }
+      .topbar { padding-top: 6px; padding-bottom: 6px; }
+      .player { padding-top: 4px; padding-bottom: 4px; }
+      .welcome { display: none; }
+      .auth-wrap { padding: 4px 0; }
+      .auth-card { padding: 13px; }
+      .auth-logo { width: 38px; height: 38px; margin-bottom: 6px; font-size: 20px; }
+      .auth-card > p { margin-bottom: 8px; }
+      .auth-card label { margin-top: 7px; }
+    }
+    @media (max-width: 350px) {
+      .phone-shell { border-width: 5px; border-radius: 24px; }
+      .splash-content { border-width: 5px; border-radius: 24px; }
+      .topbar { padding-right: 8px; padding-left: 8px; }
+      .brand h1 { font-size: .78rem; }
+      .account-tools .button { padding-right: 6px; padding-left: 6px; font-size: .66rem; }
+      .main-panel { padding: 9px; }
+      .song-grid { gap: 7px; }
+      .song-card { grid-template-columns: 38px minmax(0, 1fr); min-height: 48px; padding: 3px; }
+      .cover-wrap { width: 38px; }
+      .playlist-head { flex-direction: column; }
+      .playlist-head .toolbar .button { padding-right: 8px; padding-left: 8px; font-size: .73rem; }
+      .dialog-content { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-screen" id="splashScreen" aria-label="Ouverture de NewMusicApp">
+    <div class="splash-content">
+      <div class="splash-status" aria-hidden="true">
+        <span>9:41</span>
+        <span>◔ Wi‑Fi</span>
+      </div>
+      <img class="splash-logo" src="logoyeti.jpg" alt="YETI technologies" />
+    </div>
+  </div>
+
+  <div class="phone-stage">
+    <div class="phone-shell">
+      <div class="android-status" aria-label="Barre d'état Android">
+        <span>9:41</span>
+        <span aria-hidden="true">● ▮▮  Wi-Fi  ▰</span>
+      </div>
+      <div class="app-shell">
+        <header class="topbar">
+          <button class="back-button" id="backButton" type="button" aria-label="Retour">←</button>
+          <div class="brand">
+            <div class="brand-mark" aria-hidden="true">♫</div>
+            <div>
+              <h1>NewMusicApp</h1>
+              <p>Ta musique, tes découvertes</p>
+            </div>
+          </div>
+          <div class="account-tools">
+            <div class="user-pill" id="userPill">
+              <span class="user-avatar" id="userAvatar">A</span>
+            </div>
+            <button class="button secondary" id="accountButton" type="button">Profil</button>
+          </div>
+        </header>
+
+        <div class="layout">
+          <aside class="sidebar" id="sidebar" aria-label="Navigation principale">
+            <div class="nav-group-title">Bibliothèque</div>
+            <button class="nav-button active" data-view="home" aria-label="Accueil" type="button"><span class="nav-icon">⌂</span><span>Accueil</span></button>
+            <button class="nav-button" data-view="favorites" aria-label="Mes favoris" type="button"><span class="nav-icon">♡</span><span>Mes favoris</span></button>
+            <button class="nav-button" data-view="playlists" aria-label="Playlists" type="button"><span class="nav-icon">▤</span><span>Playlists</span></button>
+            <div class="sidebar-divider"></div>
+            <div class="side-playlists-wrap">
+              <div class="nav-group-title">Tes playlists</div>
+              <div id="sidebarPlaylists"></div>
+            </div>
+          </aside>
+
+          <main class="main-panel" id="mainPanel" aria-live="polite"></main>
+        </div>
+
+        <section class="player" aria-label="Lecteur audio">
+          <div class="now-playing">
+            <img id="playerCover" src="pochette1.png" alt="">
+            <div>
+              <strong id="playerTitle">Choisis une chanson</strong>
+              <span id="playerArtist">Le lecteur est prêt</span>
+            </div>
+          </div>
+          <div class="player-center">
+            <div class="player-buttons">
+              <button class="player-button" id="shuffleButton" type="button" title="Démarrer une chanson au hasard dans la playlist" aria-label="Lecture aléatoire">⤨</button>
+              <button class="player-button" id="previousButton" type="button" title="Morceau précédent" aria-label="Morceau précédent">◀|</button>
+              <button class="player-button main" id="playButton" type="button" title="Lecture / pause" aria-label="Lecture">▶</button>
+              <button class="player-button" id="nextButton" type="button" title="Morceau suivant" aria-label="Morceau suivant">|▶</button>
+              <button class="player-button" id="loopButton" type="button" title="Activer la répétition" aria-label="Activer la répétition">↻</button>
+            </div>
+            <div class="timeline">
+              <span id="currentTime">0:00</span>
+              <input id="seekBar" type="range" min="0" max="1000" value="0" aria-label="Position de lecture">
+              <span id="totalTime">0:00</span>
+            </div>
+          </div>
+          <div class="player-mode" id="playerMode">Répétition désactivée</div>
+          <audio id="audio" preload="metadata"></audio>
+        </section>
+      </div>
+      <div class="android-gesture" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <dialog id="appDialog" aria-labelledby="dialogTitle">
+    <form class="dialog-content" id="dialogForm">
+      <h2 id="dialogTitle"></h2>
+      <p class="dialog-description" id="dialogDescription"></p>
+      <div id="dialogBody"></div>
+      <div class="dialog-actions" id="dialogActions"></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    "use strict";
+
+    const SONGS = [
+      { id: "1", titre: "s'il suffisait d'aimer", artiste: "Celine Dion", imageUrl: "pochette1.png", audioUrl: "audio1.mp3", duree: 217 },
+      { id: "2", titre: "nos cahiers", artiste: "Charlotte Dipanda", imageUrl: "pochette2.png", audioUrl: "audio2.mp3", duree: 200 },
+      { id: "3", titre: "charlene", artiste: "cysoul", imageUrl: "pochette3.png", audioUrl: "audio3.mp3", duree: 216 }
+    ];
+    const STORAGE_KEY = "newmusicapp-state-v2";
+    const state = loadState();
+    const audio = document.querySelector("#audio");
+    const dialog = document.querySelector("#appDialog");
+    let currentSong = null;
+    let queue = [];
+    let queueIndex = -1;
+    let currentPlaylistId = null;
+    let toastTimer;
+
+    function initialState() {
+      return {
+        user: null,
+        accounts: {},
+        favorites: [],
+        playlists: [],
+        loop: false
+      };
+    }
+
+    function loadState() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (stored && Array.isArray(stored.playlists) && Array.isArray(stored.favorites) && stored.accounts) return stored;
+      } catch (error) {
+        console.warn("État utilisateur illisible ; création d'un état neuf.", error);
+      }
+      const fresh = initialState();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
+      return fresh;
+    }
+
+    function persist() {
+      if (state.user && state.accounts[state.user.email]) {
+        state.accounts[state.user.email].favorites = [...state.favorites];
+        state.accounts[state.user.email].playlists = state.playlists.map(playlist => ({
+          ...playlist,
+          songIds: [...playlist.songIds]
+        }));
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    async function hashPassword(password) {
+      const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(password));
+      return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, "0")).join("");
+    }
+
+    function activateAccount(email) {
+      const account = state.accounts[email];
+      state.user = { email };
+      state.favorites = [...account.favorites];
+      state.playlists = account.playlists.map(playlist => ({
+        ...playlist,
+        songIds: [...playlist.songIds]
+      }));
+      persist();
+      renderSidebar();
+      setView("home");
+    }
+
+    function songById(id) { return SONGS.find(song => song.id === id); }
+    function playlistById(id) { return state.playlists.find(playlist => playlist.id === id); }
+    function playlistSongs(playlist) { return playlist.songIds.map(songById).filter(Boolean); }
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
+    function formatTime(seconds) {
+      if (!Number.isFinite(seconds)) return "0:00";
+      const value = Math.max(0, Math.floor(seconds));
+      return `${Math.floor(value / 60)}:${String(value % 60).padStart(2, "0")}`;
+    }
+    function showToast(message) {
+      const toast = document.querySelector("#toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function songCard(song) {
+      const favorite = state.favorites.includes(song.id);
+      return `
+        <article class="song-card">
+          <div class="cover-wrap">
+            <img class="cover" src="${song.imageUrl}" alt="Pochette de ${escapeHtml(song.titre)}">
+            <button class="cover-play" type="button" data-play-song="${song.id}" title="Lire ${escapeHtml(song.titre)}" aria-label="Lire ${escapeHtml(song.titre)}">▶</button>
+          </div>
+          <div class="song-meta">
+            <div style="min-width:0">
+              <h3 title="${escapeHtml(song.titre)}">${escapeHtml(song.titre)}</h3>
+              <p>${escapeHtml(song.artiste)}</p>
+            </div>
+            <button class="heart-button ${favorite ? "is-favorite" : ""}" type="button" data-favorite="${song.id}" title="${favorite ? "Retirer des favoris" : "Ajouter aux favoris"}" aria-label="${favorite ? "Retirer des favoris" : "Ajouter aux favoris"}">♥</button>
+          </div>
+          <div class="duration">${formatTime(song.duree)}</div>
+        </article>`;
+    }
+
+    function renderSidebar() {
+      document.querySelector("#sidebarPlaylists").innerHTML = state.playlists.map(playlist => `
+        <button class="side-playlist" data-open-playlist="${playlist.id}" type="button">
+          <span>♫ ${escapeHtml(playlist.nom)}</span>
+          <span class="side-count">${playlist.songIds.length}</span>
+        </button>`).join("");
+      document.querySelector("#userPill").hidden = !state.user;
+      document.querySelector("#userAvatar").textContent = (state.user?.email || "I").slice(0, 1).toUpperCase();
+      document.querySelector("#accountButton").textContent = state.user ? "Profil" : "Connexion";
+      document.querySelector("#sidebar").hidden = !state.user;
+      document.querySelector(".layout").classList.toggle("logged-out", !state.user);
+    }
+
+    function setGuestAccess() {
+      if (state.user) return;
+      state.favorites = [];
+      state.playlists = [];
+      renderSidebar();
+      setView("home");
+      showToast("Mode invité activé.");
+    }
+
+    let authMode = "sign-in";
+    function renderAuth(mode = authMode) {
+      authMode = mode;
+      const signingUp = mode === "sign-up";
+      document.querySelector("#mainPanel").innerHTML = `
+        <div class="auth-wrap">
+          <section class="auth-card">
+            <div class="auth-logo" aria-hidden="true">♫</div>
+            <h2>${signingUp ? "Créer un compte" : "Bienvenue"}</h2>
+            <p>${signingUp ? "Inscris-toi pour retrouver tes chansons et ta bibliothèque." : "Connecte-toi pour accéder à ta musique."}</p>
+            <form id="authForm" data-auth-mode="${mode}">
+              <label for="authEmail">Adresse e-mail</label>
+              <input id="authEmail" type="email" autocomplete="email" placeholder="toi@exemple.fr" required>
+              <label for="authPassword">Mot de passe</label>
+              <div class="auth-field">
+                <input id="authPassword" type="password" autocomplete="${signingUp ? "new-password" : "current-password"}" minlength="${signingUp ? "6" : "1"}" placeholder="${signingUp ? "Au moins 6 caractères" : "Ton mot de passe"}" required>
+                <button type="button" class="password-toggle" data-toggle-password="authPassword" aria-pressed="false" aria-label="Afficher le mot de passe">👁</button>
+              </div>
+              ${signingUp ? `<label for="authConfirm">Confirmer le mot de passe</label><div class="auth-field"><input id="authConfirm" type="password" autocomplete="new-password" minlength="6" placeholder="Répète ton mot de passe" required><button type="button" class="password-toggle" data-toggle-password="authConfirm" aria-pressed="false" aria-label="Afficher le mot de passe">👁</button></div>` : ""}
+              <p class="auth-error" id="authError" role="alert"></p>
+              <button class="button" type="submit">${signingUp ? "Créer mon compte" : "Se connecter"}</button>
+            </form>
+            <button class="auth-switch" type="button" data-auth-switch="${signingUp ? "sign-in" : "sign-up"}">${signingUp ? "J'ai déjà un compte · Se connecter" : "Pas encore de compte ? S'inscrire"}</button>
+          </section>
+        </div>`;
+    }
+
+    function renderHome() {
+      const rawValue = document.querySelector("#songSearch")?.value || "";
+      const search = rawValue.trim().toLowerCase();
+      const matches = SONGS.filter(song => `${song.titre} ${song.artiste}`.toLowerCase().includes(search));
+      document.querySelector("#mainPanel").innerHTML = `
+        <section class="welcome">
+          <div>
+            <h2>Bonjour${state.user ? `, ${escapeHtml(state.user.email.split("@")[0])}` : ""} !</h2>
+            <p>Retrouve tes chansons, garde tes favoris et compose une playlist pour chaque ambiance.</p>
+          </div>
+          <div class="welcome-note" aria-hidden="true">♫</div>
+        </section>
+        <div class="section-head">
+          <div><h2>Découvre tes chansons</h2><p>Le catalogue actuel contient ${SONGS.length} références.</p></div>
+          <div class="toolbar">
+            <input class="search" id="songSearch" type="search" placeholder="Rechercher un titre ou artiste…" value="${escapeHtml(rawValue)}" aria-label="Rechercher une chanson">
+            <button class="button" type="button" data-action="create-playlist">＋ Créer une playlist</button>
+          </div>
+        </div>
+        ${matches.length ? `<div class="song-grid">${matches.map(songCard).join("")}</div>` : `<div class="empty-state"><strong>Aucun résultat</strong>Essaie un autre titre ou nom d’artiste.</div>`}
+        <div class="section-head"><div><h2>Tes playlists</h2><p>Ouvre une playlist pour l'écouter ou ajouter des chansons.</p></div><button class="button secondary" type="button" data-view="playlists">Voir toutes</button></div>
+        ${state.playlists.length ? `<div class="playlist-grid">${state.playlists.slice(0, 3).map(playlistCard).join("")}</div>` : emptyPlaylists()}`;
+      document.querySelector("#songSearch").addEventListener("input", event => {
+        const value = event.target.value;
+        renderHome();
+        const input = document.querySelector("#songSearch");
+        input.focus();
+        input.setSelectionRange(value.length, value.length);
+      });
+    }
+
+    function playlistCard(playlist) {
+      const songs = playlistSongs(playlist);
+      const cover = songs[0] ? `<img src="${songs[0].imageUrl}" alt="">` : "♫";
+      return `
+        <article class="playlist-card">
+          <div class="playlist-art">${cover}</div>
+          <div class="playlist-info" role="button" tabindex="0" data-open-playlist="${playlist.id}" aria-label="Ouvrir ${escapeHtml(playlist.nom)}">
+            <h3>${escapeHtml(playlist.nom)}</h3>
+            <p>${songs.length} chanson${songs.length === 1 ? "" : "s"}</p>
+          </div>
+          <div class="playlist-actions">
+            <button class="button secondary icon-only" type="button" data-add-to-playlist="${playlist.id}" title="Ajouter des chansons à ${escapeHtml(playlist.nom)}" aria-label="Ajouter des chansons">＋</button>
+          </div>
+        </article>`;
+    }
+
+    function emptyPlaylists() {
+      return `<div class="empty-state"><strong>Aucune playlist pour le moment</strong>Utilise « Créer une playlist » pour commencer.</div>`;
+    }
+
+    function renderPlaylists() {
+      document.querySelector("#mainPanel").innerHTML = `
+        <div class="section-head">
+          <div><h2 class="page-title">Mes playlists</h2><p>Chaque carte possède un bouton + pour ajouter des titres, qu'elle soit vide ou déjà remplie.</p></div>
+          <button class="button" type="button" data-action="create-playlist">＋ Créer une playlist</button>
+        </div>
+        ${state.playlists.length ? `<div class="playlist-grid">${state.playlists.map(playlistCard).join("")}</div>` : emptyPlaylists()}`;
+    }
+
+    function renderFavorites() {
+      const songs = state.favorites.map(songById).filter(Boolean);
+      document.querySelector("#mainPanel").innerHTML = `
+        <div class="section-head"><div><h2 class="page-title">Mes favoris</h2><p>Les chansons que tu as marquées d'un cœur.</p></div></div>
+        ${songs.length ? `<div class="song-grid">${songs.map(songCard).join("")}</div>` : `<div class="empty-state"><strong>Aucun favori pour le moment</strong>Ajoute une chanson avec le bouton cœur du catalogue.</div>`}`;
+    }
+
+    function renderPlaylistDetail(id) {
+      const playlist = playlistById(id);
+      if (!playlist) return renderPlaylists();
+      const songs = playlistSongs(playlist);
+      const cover = songs[0] ? `<img src="${songs[0].imageUrl}" alt="">` : "♫";
+      const rows = songs.map((song, index) => `
+        <div class="track-row ${currentSong?.id === song.id && queue === songs ? "current" : ""}">
+          <span class="track-number">${String(index + 1).padStart(2, "0")}</span>
+          <img class="track-cover" src="${song.imageUrl}" alt="">
+          <div class="track-title" role="button" tabindex="0" data-play-track="${song.id}" data-playlist="${playlist.id}">
+            <strong>${escapeHtml(song.titre)}</strong><span>${escapeHtml(song.artiste)}</span>
+          </div>
+          <span class="track-duration">${formatTime(song.duree)}</span>
+          <button class="button secondary icon-only remove-track" type="button" data-remove-song="${song.id}" data-playlist="${playlist.id}" title="Retirer de cette playlist" aria-label="Retirer ${escapeHtml(song.titre)}">×</button>
+        </div>`).join("");
+
+      document.querySelector("#mainPanel").innerHTML = `
+        <button class="button secondary" type="button" data-view="playlists">← Toutes les playlists</button>
+        <section class="playlist-head">
+          <div class="playlist-art">${cover}</div>
+          <div>
+            <h2>${escapeHtml(playlist.nom)}</h2>
+            <p>${songs.length} chanson${songs.length === 1 ? "" : "s"} · Lecture successive disponible</p>
+            <div class="toolbar">
+              <button class="button" type="button" data-play-playlist="${playlist.id}" ${songs.length ? "" : "disabled"}>▶ Lire la playlist</button>
+              <button class="button secondary" type="button" data-random-playlist="${playlist.id}" ${songs.length ? "" : "disabled"}>⤨ Démarrer au hasard</button>
+              <button class="button secondary" type="button" data-add-to-playlist="${playlist.id}">＋ Ajouter des chansons</button>
+            </div>
+          </div>
+        </section>
+        ${songs.length ? `<div class="playlist-track-list">${rows}</div>` : `<div class="empty-state"><strong>Cette playlist est vide</strong>Le bouton « Ajouter des chansons » permet de la remplir.</div>`}`;
+    }
+
+    function renderProfile() {
+      document.querySelector("#mainPanel").innerHTML = `
+        <div class="section-head"><div><h2 class="page-title">Mon profil</h2><p>Ton compte NewMusicApp</p></div></div>
+        <section class="profile-card">
+          <div class="user-avatar">${(state.user?.email || "I").slice(0, 1).toUpperCase()}</div>
+          <h2>${state.user ? escapeHtml(state.user.email) : "Invité"}</h2>
+          <p>Gère ta session et retrouve ta bibliothèque personnelle.</p>
+          <button class="button" type="button" data-action="sign-out">Se déconnecter</button>
+        </section>`;
+    }
+
+    let currentView = "home";
+    let activePlaylistId = null;
+    function setView(view, id = null) {
+      if (!state.user && view !== "auth" && view !== "home") view = "home";
+      currentView = view;
+      activePlaylistId = view === "playlist-detail" ? id : null;
+      document.querySelector(".app-shell").classList.toggle("auth-view", view === "auth");
+      document.querySelector("#mainPanel").scrollTop = 0;
+      document.querySelectorAll(".nav-button").forEach(button => {
+        button.classList.toggle("active", button.dataset.view === view || (view === "playlist-detail" && button.dataset.view === "playlists"));
+      });
+      if (view === "home") renderHome();
+      else if (view === "favorites") renderFavorites();
+      else if (view === "playlists") renderPlaylists();
+      else if (view === "playlist-detail") renderPlaylistDetail(id);
+      else if (view === "profile") renderProfile();
+      else if (view === "auth") renderAuth();
+      renderSidebar();
+    }
+
+    function openDialog(title, description, bodyHtml, actions) {
+      document.querySelector("#dialogTitle").textContent = title;
+      document.querySelector("#dialogDescription").textContent = description;
+      document.querySelector("#dialogBody").innerHTML = bodyHtml;
+      document.querySelector("#dialogActions").innerHTML = actions;
+      dialog.showModal();
+    }
+
+    function showCreatePlaylistDialog() {
+      openDialog(
+        "Créer une playlist",
+        "Donne un nom à ta playlist. Tu pourras ensuite lui ajouter des chansons avec le bouton +.",
+        `<label for="playlistName">Nom de la playlist</label><input id="playlistName" name="playlistName" type="text" maxlength="60" placeholder="Ex. Mes chansons préférées" required>`,
+        `<button class="button secondary" type="button" data-close-dialog>Annuler</button><button class="button" type="submit" data-submit="create-playlist">Créer</button>`
+      );
+      document.querySelector("#playlistName").focus();
+    }
+
+    function showAddSongsDialog(playlistId) {
+      const playlist = playlistById(playlistId);
+      if (!playlist) return;
+      const available = SONGS.filter(song => !playlist.songIds.includes(song.id));
+      const body = available.length
+        ? `<div class="check-list">${available.map(song => `
+            <label class="check-song">
+              <input type="checkbox" name="songIds" value="${song.id}">
+              <img src="${song.imageUrl}" alt="">
+              <span><strong style="color:var(--pink-dark)">${escapeHtml(song.titre)}</strong><br>${escapeHtml(song.artiste)}</span>
+            </label>`).join("")}</div>`
+        : `<div class="empty-state"><strong>Toutes les chansons sont déjà présentes</strong>Tu peux retirer un morceau de la playlist, puis l'ajouter de nouveau.</div>`;
+      openDialog(
+        `Ajouter à « ${playlist.nom} »`,
+        "Coche une ou plusieurs chansons. Ce bouton + sert à enrichir cette playlist sans quitter sa liste.",
+        body,
+        `<button class="button secondary" type="button" data-close-dialog>Annuler</button><button class="button" type="submit" data-submit="add-songs" data-playlist="${playlist.id}" ${available.length ? "" : "disabled"}>Ajouter la sélection</button>`
+      );
+    }
+
+    function toggleFavorite(id) {
+      if (state.favorites.includes(id)) {
+        state.favorites = state.favorites.filter(favoriteId => favoriteId !== id);
+        showToast("Chanson retirée des favoris.");
+      } else {
+        state.favorites.push(id);
+        showToast("Chanson ajoutée aux favoris.");
+      }
+      persist();
+      renderSidebar();
+      if (currentView === "home") renderHome();
+      if (currentView === "favorites") renderFavorites();
+      if (currentView === "playlist-detail") renderPlaylistDetail(activePlaylistId);
+    }
+
+    function resolveAudioUrl(song) {
+      if (!song?.audioUrl) return "";
+      return new URL(song.audioUrl, document.baseURI).href;
+    }
+
+    function playSong(song, songs = [song], startIndex = 0) {
+      if (!song) return;
+      currentSong = song;
+      queue = songs;
+      queueIndex = Math.max(0, songs.findIndex(item => item.id === song.id));
+      if (queueIndex < 0) queueIndex = startIndex;
+
+      const resolvedUrl = resolveAudioUrl(song);
+      if (!resolvedUrl) {
+        showToast("Choisis une chanson pour commencer la lecture.");
+        return;
+      }
+
+      if (audio.src !== resolvedUrl) {
+        audio.src = resolvedUrl;
+        audio.load();
+      }
+      audio.loop = Boolean(state.loop && songs.length <= 1);
+      document.querySelector("#playerCover").src = song.imageUrl;
+      document.querySelector("#playerTitle").textContent = song.titre;
+      document.querySelector("#playerArtist").textContent = song.artiste;
+      document.querySelector("#playerMode").textContent = state.loop ? "Répétition activée" : (songs.length > 1 ? "Lecture successive" : "Répétition désactivée");
+      audio.play().then(() => {
+        document.querySelector("#playButton").textContent = "Ⅱ";
+      }).catch(error => {
+        document.querySelector("#playButton").textContent = "▶";
+        showToast(`Lecture non démarrée : ${error.message || "vérifie le fichier audio"}`);
+      });
+    }
+
+    function startPlaylist(playlistId, randomStart = false) {
+      const playlist = playlistById(playlistId);
+      if (!playlist) return;
+      const songs = playlistSongs(playlist);
+      if (!songs.length) {
+        showToast("Cette playlist est vide : ajoute d'abord des chansons.");
+        return;
+      }
+      currentPlaylistId = playlistId;
+      if (randomStart) {
+        const index = Math.floor(Math.random() * songs.length);
+        playSong(songs[index], songs, index);
+        showToast(`Départ aléatoire : ${songs[index].titre}`);
+      } else {
+        playSong(songs[0], songs, 0);
+        showToast(`Lecture successive : ${playlist.nom}`);
+      }
+    }
+
+    function advance(direction) {
+      if (!queue.length || queueIndex < 0) {
+        showToast("Choisis d'abord une chanson ou une playlist.");
+        return;
+      }
+      const nextIndex = queueIndex + direction;
+      if (nextIndex < 0) {
+        if (!state.loop) return showToast("Tu es au début de la liste.");
+        queueIndex = queue.length - 1;
+      } else if (nextIndex >= queue.length) {
+        if (!state.loop) {
+          audio.pause();
+          document.querySelector("#playButton").textContent = "▶";
+          return showToast("Fin de la playlist.");
+        }
+        queueIndex = 0;
+      } else {
+        queueIndex = nextIndex;
+      }
+      playSong(queue[queueIndex], queue, queueIndex);
+    }
+
+    function shuffleCurrentPlaylist() {
+      const playlist = playlistById(currentPlaylistId);
+      if (playlist) return startPlaylist(playlist.id, true);
+      if (queue.length) {
+        const randomIndex = Math.floor(Math.random() * queue.length);
+        playSong(queue[randomIndex], queue, randomIndex);
+        showToast(`Départ aléatoire : ${queue[randomIndex].titre}`);
+      } else {
+        showToast("Ouvre une playlist pour démarrer un morceau au hasard.");
+      }
+    }
+
+    document.addEventListener("click", event => {
+      const target = event.target.closest("button, [role=button]");
+      if (!target) return;
+      if (target.dataset.view) return setView(target.dataset.view);
+      if (target.dataset.openPlaylist) return setView("playlist-detail", target.dataset.openPlaylist);
+      if (target.dataset.authSwitch) return renderAuth(target.dataset.authSwitch);
+      if (target.dataset.action === "create-playlist") return showCreatePlaylistDialog();
+      if (target.dataset.action === "sign-out") {
+        persist();
+        state.user = null;
+        state.favorites = [];
+        state.playlists = [];
+        persist();
+        renderSidebar();
+        audio.pause();
+        currentSong = null;
+        queue = [];
+        queueIndex = -1;
+        currentPlaylistId = null;
+        document.querySelector("#playerTitle").textContent = "Choisis une chanson";
+        document.querySelector("#playerArtist").textContent = "Le lecteur est prêt";
+        return setView("auth");
+      }
+      if (target.dataset.playSong) return playSong(songById(target.dataset.playSong));
+      if (target.dataset.favorite) return toggleFavorite(target.dataset.favorite);
+      if (target.dataset.addToPlaylist) return showAddSongsDialog(target.dataset.addToPlaylist);
+      if (target.dataset.playPlaylist) return startPlaylist(target.dataset.playPlaylist);
+      if (target.dataset.randomPlaylist) return startPlaylist(target.dataset.randomPlaylist, true);
+      if (target.dataset.playTrack) {
+        const playlist = playlistById(target.dataset.playlist);
+        currentPlaylistId = target.dataset.playlist;
+        return playSong(songById(target.dataset.playTrack), playlistSongs(playlist));
+      }
+      if (target.dataset.removeSong) {
+        const playlist = playlistById(target.dataset.playlist);
+        if (!playlist) return;
+        playlist.songIds = playlist.songIds.filter(id => id !== target.dataset.removeSong);
+        persist();
+        renderSidebar();
+        renderPlaylistDetail(playlist.id);
+        return showToast("Chanson retirée de la playlist.");
+      }
+      if (target.dataset.closeDialog !== undefined) return dialog.close();
+      if (target.id === "accountButton") return setView(state.user ? "profile" : "auth");
+    });
+
+    document.addEventListener("keydown", event => {
+      if ((event.key === "Enter" || event.key === " ") && event.target.matches("[role=button]")) {
+        event.preventDefault();
+        event.target.click();
+      }
+    });
+
+    document.querySelector("#dialogForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const action = event.submitter?.dataset.submit;
+      if (action === "create-playlist") {
+        const name = document.querySelector("#playlistName").value.trim();
+        if (!name) return;
+        state.playlists.unshift({
+          id: `playlist-${Date.now()}`,
+          nom: name,
+          songIds: []
+        });
+        persist();
+        dialog.close();
+        renderSidebar();
+        setView("playlists");
+        showToast(`Playlist « ${name} » créée.`);
+      } else if (action === "add-songs") {
+        const playlist = playlistById(event.submitter.dataset.playlist);
+        if (!playlist) return;
+        const chosen = [...document.querySelectorAll('input[name="songIds"]:checked')].map(input => input.value);
+        if (!chosen.length) return showToast("Sélectionne au moins une chanson.");
+        playlist.songIds.push(...chosen.filter(id => !playlist.songIds.includes(id)));
+        persist();
+        dialog.close();
+        renderSidebar();
+        if (currentView === "playlist-detail") renderPlaylistDetail(playlist.id);
+        else renderPlaylists();
+        showToast(`${chosen.length} chanson${chosen.length === 1 ? "" : "s"} ajoutée${chosen.length === 1 ? "" : "s"}.`);
+      }
+    });
+
+    document.querySelector("#mainPanel").addEventListener("submit", async event => {
+      if (event.target.id !== "authForm") return;
+      event.preventDefault();
+
+      const form = event.target;
+      const email = document.querySelector("#authEmail").value.trim().toLowerCase();
+      const password = document.querySelector("#authPassword").value;
+      const errorBox = document.querySelector("#authError");
+      errorBox.textContent = "";
+
+      try {
+        if (form.dataset.authMode === "sign-up") {
+          const confirmation = document.querySelector("#authConfirm").value;
+          if (password !== confirmation) {
+            errorBox.textContent = "Les mots de passe ne correspondent pas.";
+            return;
+          }
+          if (state.accounts[email]) {
+            errorBox.textContent = "Un compte existe déjà avec cette adresse e-mail.";
+            return;
+          }
+          state.accounts[email] = {
+            passwordHash: await hashPassword(password),
+            favorites: [],
+            playlists: []
+          };
+          activateAccount(email);
+          showToast("Ton compte est prêt. Bienvenue !");
+          return;
+        }
+
+        const account = state.accounts[email];
+        if (!account || account.passwordHash !== await hashPassword(password)) {
+          errorBox.textContent = "Adresse e-mail ou mot de passe incorrect.";
+          return;
+        }
+        activateAccount(email);
+        showToast("Connexion réussie.");
+      } catch (error) {
+        errorBox.textContent = `Impossible de terminer l'authentification : ${error.message}`;
+      }
+    });
+
+    document.querySelector("#playButton").addEventListener("click", () => {
+      const selectedSong = currentSong || (queue[queueIndex] || null);
+      if (!selectedSong) {
+        showToast("Choisis une chanson pour commencer la lecture.");
+      } else if (audio.paused) {
+        if (audio.src === "") {
+          playSong(selectedSong, queue.length ? queue : [selectedSong], queueIndex >= 0 ? queueIndex : 0);
+          return;
+        }
+        audio.play().then(() => {
+          document.querySelector("#playButton").textContent = "Ⅱ";
+        }).catch(error => showToast(`Lecture impossible : ${error.message}`));
+      } else {
+        audio.pause();
+        document.querySelector("#playButton").textContent = "▶";
+      }
+    });
+
+    // back button behaviour: keep layout stable and provide a consistent navigation
+    const backButtonEl = document.querySelector("#backButton");
+    if (backButtonEl) {
+      backButtonEl.addEventListener("click", () => {
+        // close dialog if open
+        if (dialog && dialog.open) { dialog.close(); return; }
+        // if on a playlist detail, go back to playlists
+        if (currentView === "playlist-detail" && activePlaylistId) { setView("playlists"); return; }
+        // if not on home, go home
+        if (currentView !== "home") { setView("home"); return; }
+        // otherwise inform user
+        showToast("Tu es déjà sur l'accueil.");
+      });
+    }
+
+    document.querySelector("#accountButton").addEventListener("click", () => {
+      if (!state.user) {
+        setView("auth");
+        return;
+      }
+      setView("profile");
+    });
+    document.querySelector("#previousButton").addEventListener("click", () => advance(-1));
+    document.querySelector("#nextButton").addEventListener("click", () => advance(1));
+    document.querySelector("#shuffleButton").addEventListener("click", shuffleCurrentPlaylist);
+    document.querySelector("#loopButton").addEventListener("click", event => {
+      state.loop = !state.loop;
+      audio.loop = Boolean(state.loop && queue.length <= 1);
+      persist();
+      event.currentTarget.classList.toggle("enabled", state.loop);
+      event.currentTarget.title = state.loop ? "Désactiver la répétition" : "Activer la répétition";
+      document.querySelector("#playerMode").textContent = state.loop ? "Répétition activée" : (queue.length > 1 ? "Lecture successive" : "Répétition désactivée");
+      showToast(state.loop ? "Mode répétition activé." : "Mode répétition désactivé.");
+    });
+    document.querySelector("#seekBar").addEventListener("input", event => {
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        audio.currentTime = (Number(event.target.value) / 1000) * audio.duration;
+      }
+    });
+    audio.addEventListener("timeupdate", () => {
+      document.querySelector("#currentTime").textContent = formatTime(audio.currentTime);
+      document.querySelector("#totalTime").textContent = formatTime(audio.duration || currentSong?.duree || 0);
+      if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        document.querySelector("#seekBar").value = String(Math.round(audio.currentTime / audio.duration * 1000));
+      }
+    });
+    audio.addEventListener("loadedmetadata", () => {
+      document.querySelector("#totalTime").textContent = formatTime(audio.duration);
+    });
+    audio.addEventListener("play", () => { document.querySelector("#playButton").textContent = "Ⅱ"; });
+    audio.addEventListener("pause", () => { document.querySelector("#playButton").textContent = "▶"; });
+    audio.addEventListener("ended", () => {
+      if (queue.length > 1) advance(1);
+      else if (!state.loop) document.querySelector("#playButton").textContent = "▶";
+    });
+    audio.addEventListener("error", () => {
+      showToast("Le fichier audio est introuvable ou son format n'est pas pris en charge.");
+      document.querySelector("#playButton").textContent = "▶";
+    });
+
+    // password toggle handler: show/hide password fields when eye button clicked
+    document.addEventListener("click", event => {
+      const btn = event.target.closest("button[data-toggle-password]");
+      if (!btn) return;
+      const targetId = btn.dataset.togglePassword;
+      const input = document.getElementById(targetId);
+      if (input) {
+        const showing = input.type === "text";
+        input.type = showing ? "password" : "text";
+        btn.textContent = showing ? "👁" : "🙈";
+        btn.setAttribute("aria-pressed", String(!showing));
+      }
+    });
+    renderSidebar();
+    setView("home");
+    window.setTimeout(() => document.querySelector("#splashScreen").classList.add("done"), 1800);
+  </script>
+</body>
+</html>

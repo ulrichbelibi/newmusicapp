@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PAIA – Programme Spotify Clone (Option A)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0b0d10; color: #e6edf3; font-family: 'Segoe UI', Roboto, sans-serif; padding: 40px 20px; line-height: 1.7; }
+    .container { max-width: 1100px; margin: 0 auto; background: #161b22; border-radius: 24px; padding: 50px 45px; border: 1px solid #30363d; }
+    .header { text-align: center; padding-bottom: 30px; border-bottom: 2px solid #30363d; margin-bottom: 40px; }
+    .header h1 { font-size: 2.6rem; background: linear-gradient(135deg, #1DB954, #f0e6d0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+    .header .slogan { font-size: 1.1rem; color: #f0e6d0; font-style: italic; margin-bottom: 8px; }
+    .header .ref { color: #8b949e; font-size: 0.9rem; }
+    .header .ref a { color: #1DB954; text-decoration: none; }
+    .stats { display: flex; flex-wrap: wrap; gap: 20px; background: #0d1117; border-radius: 14px; padding: 20px 30px; margin: 30px 0 35px 0; border: 1px solid #30363d; justify-content: center; }
+    .stats .item { text-align: center; min-width: 100px; }
+    .stats .chiffre { font-size: 2rem; font-weight: 700; color: #1DB954; }
+    .stats .label { color: #8b949e; font-size: 0.85rem; }
+    h2 { font-size: 1.8rem; color: #f0e6d0; border-bottom: 2px solid #30363d; padding-bottom: 8px; margin: 40px 0 20px 0; }
+    .phase { border-radius: 16px; padding: 20px 28px; margin: 25px 0; }
+    .phase-hors-ligne { background: #0d1117; border-left: 6px solid #1DB954; }
+    .phase-en-ligne { background: #0d1117; border-left: 6px solid #e2a53a; }
+    .phase-titre { font-size: 1.4rem; color: #f0e6d0; margin-bottom: 6px; }
+    .phase-desc { color: #8b949e; font-size: 0.95rem; margin-bottom: 15px; }
+    .module { background: #161b22; border-radius: 12px; padding: 20px 24px; margin: 18px 0; border-left: 4px solid #1DB954; }
+    .module h3 { font-size: 1.2rem; color: #1DB954; margin-bottom: 4px; }
+    .module .cadrage { color: #8b949e; font-size: 0.9rem; margin-bottom: 8px; }
+    .module .rendu { background: #132e1e; border: 1px solid #238636; color: #7ee787; padding: 4px 14px; border-radius: 30px; display: inline-block; font-weight: 500; font-size: 0.85rem; margin-bottom: 14px; }
+    .lecon { background: #1c2333; border-radius: 10px; padding: 14px 18px; margin: 10px 0; border-left: 3px solid #e2a53a; }
+    .lecon h4 { color: #e2a53a; font-size: 1rem; margin-bottom: 8px; }
+    .notion { background: #0d1117; border-radius: 8px; padding: 8px 14px; margin: 5px 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .notion .num { font-weight: 700; color: #1DB954; font-size: 0.8rem; min-width: 55px; }
+    .notion .titre { font-weight: 600; color: #e6edf3; font-size: 0.9rem; }
+    .notion .objectif { color: #b8c7d9; font-size: 0.85rem; margin-left: auto; white-space: nowrap; }
+    .notion .objectif::before { content: "🎯 "; }
+    .checkpoint { background: #132e1e; border-left: 4px solid #7ee787; padding: 8px 14px; border-radius: 8px; margin-top: 10px; color: #0f3a2a; font-size: 0.88rem; }
+    .checkpoint strong { color: #7ee787; }
+    .info { background: #0d1117; border-radius: 12px; padding: 15px 20px; margin: 15px 0; border-left: 4px solid #58a6ff; color: #b8c7d9; font-size: 0.92rem; }
+    .info strong { color: #58a6ff; }
+    .footer { margin-top: 50px; padding-top: 25px; border-top: 1px solid #30363d; text-align: center; color: #8b949e; font-size: 0.9rem; }
+    .footer .badge { background: #1c2333; padding: 4px 16px; border-radius: 40px; display: inline-block; margin-top: 8px; color: #1DB954; font-weight: 600; }
+    code { background: #1c2333; padding: 2px 8px; border-radius: 4px; color: #1DB954; font-family: 'Consolas', monospace; font-size: 0.85rem; }
+    @media (max-width: 700px) { .container { padding: 25px 18px; } .notion { flex-direction: column; align-items: stretch; } .notion .objectif { white-space: normal; margin-left: 0; } }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>🎵 Spotify Clone · Option A</h1>
+    <div class="slogan">Fidèle au tutoriel Dev Branch · Architecture simple</div>
+    <div class="ref">Basé sur <a href="https://youtu.be/4TFbXepOjLI" target="_blank">Dev Branch</a> · <a href="https://github.com/mahdinazmi/Spotify-Clone-With-Flutter" target="_blank">Dépôt officiel</a></div>
+  </div>
+
+  <div class="stats">
+    <div class="item"><div class="chiffre">11</div><div class="label">Modules</div></div>
+    <div class="item"><div class="chiffre">40</div><div class="label">Leçons</div></div>
+    <div class="item"><div class="chiffre">245</div><div class="label">Notions</div></div>
+    <div class="item"><div class="chiffre">~22h</div><div class="label">Temps estimé</div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STRUCTURE CIBLE                                              -->
+  <!-- ============================================================ -->
+  <h2>📂 Structure cible (fidèle au dépôt officiel)</h2>
+  <div class="info">
+    <pre style="background:#010409; padding:14px 18px; border-radius:10px; color:#b8c7d9; font-family:Consolas,monospace; font-size:0.85rem; overflow-x:auto;">
+lib/
+├── common/
+│   └── widgets/
+│       └── song_card.dart
+├── models/
+│   ├── song.dart
+│   └── user.dart
+├── pages/
+│   ├── auth/
+│   │   ├── sign_in_page.dart
+│   │   └── sign_up_page.dart
+│   ├── home/
+│   │   ├── home_page.dart
+│   │   └── song_page.dart
+│   ├── favorites_page.dart
+│   └── profile_page.dart
+├── services/
+│   ├── auth_service.dart
+│   ├── firestore_service.dart
+│   └── storage_service.dart
+└── main.dart</pre>
+    <p style="margin-top:10px;"><strong>💡 Ce qui change :</strong> Pas de Clean Architecture, pas de Bloc. On utilise <code>setState</code> pour la gestion d'état. Structure simple, fidèle au tutoriel.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 1 – HORS LIGNE                                         -->
+  <!-- ============================================================ -->
+  <h2>🔌 PHASE 1 · MODULES HORS LIGNE (0 à 6)</h2>
+  <div class="phase phase-hors-ligne">
+    <div class="phase-titre">🔌 Aucune connexion Internet requise</div>
+    <div class="phase-desc">Ces modules utilisent des assets locaux (images + audios dans le projet). Le pilote peut travailler sans connexion.</div>
+  </div>
+
+  <!-- MODULE 0 -->
+  <div class="module">
+    <h3>📦 Module 0 · Mise en place</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Créer le projet, comprendre la structure simple, faire un premier setState.</div>
+    <div class="rendu">✅ Rendu : Projet qui se lance avec un compteur setState fonctionnel</div>
+
+    <div class="lecon">
+      <h4>Leçon 0.1 · Création du projet</h4>
+      <div class="notion"><span class="num">0.1.1</span><span class="titre">flutter create</span><span class="objectif">Exécuter <code>flutter create spotify_clone</code></span></div>
+      <div class="notion"><span class="num">0.1.2</span><span class="titre">Ouvrir dans VS Code</span><span class="objectif">Ouvrir le projet dans VS Code</span></div>
+      <div class="notion"><span class="num">0.1.3</span><span class="titre">Lancer l'app</span><span class="objectif">Exécuter <code>flutter run -d chrome</code></span></div>
+      <div class="notion"><span class="num">0.1.4</span><span class="titre">Ouvrir pubspec.yaml</span><span class="objectif">Visualiser les dépendances</span></div>
+      <div class="notion"><span class="num">0.1.5</span><span class="titre">Ajouter just_audio</span><span class="objectif">Ajouter <code>just_audio</code> dans <code>pubspec.yaml</code></span></div>
+      <div class="notion"><span class="num">0.1.6</span><span class="titre">flutter pub get</span><span class="objectif">Exécuter <code>flutter pub get</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> L'app se lance sur Chrome.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 0.2 · Structure des dossiers</h4>
+      <div class="notion"><span class="num">0.2.1</span><span class="titre">Créer common/widgets/</span><span class="objectif">Créer <code>lib/common/widgets/</code></span></div>
+      <div class="notion"><span class="num">0.2.2</span><span class="titre">Créer models/</span><span class="objectif">Créer <code>lib/models/</code></span></div>
+      <div class="notion"><span class="num">0.2.3</span><span class="titre">Créer pages/auth/</span><span class="objectif">Créer <code>lib/pages/auth/</code></span></div>
+      <div class="notion"><span class="num">0.2.4</span><span class="titre">Créer pages/home/</span><span class="objectif">Créer <code>lib/pages/home/</code></span></div>
+      <div class="notion"><span class="num">0.2.5</span><span class="titre">Créer services/</span><span class="objectif">Créer <code>lib/services/</code></span></div>
+      <div class="notion"><span class="num">0.2.6</span><span class="titre">Créer assets/images/</span><span class="objectif">Créer le dossier <code>assets/images/</code></span></div>
+      <div class="notion"><span class="num">0.2.7</span><span class="titre">Créer assets/audio/</span><span class="objectif">Créer le dossier <code>assets/audio/</code></span></div>
+      <div class="notion"><span class="num">0.2.8</span><span class="titre">Déclarer assets</span><span class="objectif">Déclarer dans <code>pubspec.yaml</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Structure des dossiers en place.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 0.3 · Comprendre setState</h4>
+      <div class="notion"><span class="num">0.3.1</span><span class="titre">Comprendre StatefulWidget</span><span class="objectif">Écrire une note sur le concept</span></div>
+      <div class="notion"><span class="num">0.3.2</span><span class="titre">Créer CounterPage</span><span class="objectif">Créer une <code>StatefulWidget</code></span></div>
+      <div class="notion"><span class="num">0.3.3</span><span class="titre">Variable _counter</span><span class="objectif">Déclarer <code>int _counter = 0;</code></span></div>
+      <div class="notion"><span class="num">0.3.4</span><span class="titre">Bouton increment</span><span class="objectif">Ajouter un <code>ElevatedButton</code></span></div>
+      <div class="notion"><span class="num">0.3.5</span><span class="titre">Appeler setState</span><span class="objectif">Utiliser <code>setState(() { _counter++; })</code></span></div>
+      <div class="notion"><span class="num">0.3.6</span><span class="titre">Afficher le compteur</span><span class="objectif">Afficher <code>Text('$_counter')</code></span></div>
+      <div class="notion"><span class="num">0.3.7</span><span class="titre">Tester</span><span class="objectif">Vérifier que le compteur s'incrémente</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Le CounterPage fonctionne avec setState.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 1 -->
+  <div class="module">
+    <h3>📘 Module 1 · Modèles et Données locales</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Créer les modèles Song et User, et une liste locale de chansons.</div>
+    <div class="rendu">✅ Rendu : Liste locale de 5 chansons prête à être affichée</div>
+
+    <div class="lecon">
+      <h4>Leçon 1.1 · Modèle Song (partie 1)</h4>
+      <div class="notion"><span class="num">1.1.1</span><span class="titre">Créer song.dart</span><span class="objectif">Créer <code>models/song.dart</code></span></div>
+      <div class="notion"><span class="num">1.1.2</span><span class="titre">Déclarer la classe</span><span class="objectif">Écrire <code>class Song { }</code></span></div>
+      <div class="notion"><span class="num">1.1.3</span><span class="titre">Propriété id</span><span class="objectif">Ajouter <code>final String id;</code></span></div>
+      <div class="notion"><span class="num">1.1.4</span><span class="titre">Propriété titre</span><span class="objectif">Ajouter <code>final String titre;</code></span></div>
+      <div class="notion"><span class="num">1.1.5</span><span class="titre">Propriété artiste</span><span class="objectif">Ajouter <code>final String artiste;</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Premières propriétés créées.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 1.2 · Modèle Song (partie 2)</h4>
+      <div class="notion"><span class="num">1.2.1</span><span class="titre">Propriété imageUrl</span><span class="objectif">Ajouter <code>final String imageUrl;</code></span></div>
+      <div class="notion"><span class="num">1.2.2</span><span class="titre">Propriété audioUrl</span><span class="objectif">Ajouter <code>final String audioUrl;</code></span></div>
+      <div class="notion"><span class="num">1.2.3</span><span class="titre">Propriété duree</span><span class="objectif">Ajouter <code>final Duration duree;</code></span></div>
+      <div class="notion"><span class="num">1.2.4</span><span class="titre">Constructeur</span><span class="objectif">Ajouter le constructeur avec <code>required</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Le modèle Song est complet.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 1.3 · Modèle User</h4>
+      <div class="notion"><span class="num">1.3.1</span><span class="titre">Créer user.dart</span><span class="objectif">Créer <code>models/user.dart</code></span></div>
+      <div class="notion"><span class="num">1.3.2</span><span class="titre">Classe User</span><span class="objectif">Écrire <code>class User { }</code></span></div>
+      <div class="notion"><span class="num">1.3.3</span><span class="titre">Propriétés</span><span class="objectif">Ajouter <code>id</code>, <code>email</code>, <code>nom</code></span></div>
+      <div class="notion"><span class="num">1.3.4</span><span class="titre">Constructeur</span><span class="objectif">Ajouter le constructeur</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Le modèle User est créé.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 1.4 · Liste locale de chansons</h4>
+      <div class="notion"><span class="num">1.4.1</span><span class="titre">Créer song_data.dart</span><span class="objectif">Créer <code>models/song_data.dart</code></span></div>
+      <div class="notion"><span class="num">1.4.2</span><span class="titre">Liste vide</span><span class="objectif">Déclarer <code>List&lt;Song&gt; localSongs = [];</code></span></div>
+      <div class="notion"><span class="num">1.4.3</span><span class="titre">Chanson 1</span><span class="objectif">Ajouter la 1ère chanson avec assets locaux</span></div>
+      <div class="notion"><span class="num">1.4.4</span><span class="titre">Chanson 2</span><span class="objectif">Ajouter la 2ème chanson</span></div>
+      <div class="notion"><span class="num">1.4.5</span><span class="titre">Chanson 3</span><span class="objectif">Ajouter la 3ème chanson</span></div>
+      <div class="notion"><span class="num">1.4.6</span><span class="titre">Chanson 4</span><span class="objectif">Ajouter la 4ème chanson</span></div>
+      <div class="notion"><span class="num">1.4.7</span><span class="titre">Chanson 5</span><span class="objectif">Ajouter la 5ème chanson</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Liste locale de 5 chansons prête.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 2 -->
+  <div class="module">
+    <h3>🏠 Module 2 · UI Accueil</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Créer SongCard et HomePage avec setState.</div>
+    <div class="rendu">✅ Rendu : Page d'accueil affichant la liste des 5 chansons</div>
+
+    <div class="lecon">
+      <h4>Leçon 2.1 · Widget SongCard (partie 1)</h4>
+      <div class="notion"><span class="num">2.1.1</span><span class="titre">Créer song_card.dart</span><span class="objectif">Créer <code>common/widgets/song_card.dart</code></span></div>
+      <div class="notion"><span class="num">2.1.2</span><span class="titre">Classe SongCard</span><span class="objectif">Écrire <code>class SongCard extends StatelessWidget</code></span></div>
+      <div class="notion"><span class="num">2.1.3</span><span class="titre">Paramètre song</span><span class="objectif">Ajouter <code>final Song song;</code></span></div>
+      <div class="notion"><span class="num">2.1.4</span><span class="titre">Constructeur</span><span class="objectif">Ajouter <code>const SongCard({required this.song})</code></span></div>
+      <div class="notion"><span class="num">2.1.5</span><span class="titre">Card racine</span><span class="objectif">Retourner une <code>Card</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Structure de base de SongCard.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 2.2 · Widget SongCard (partie 2)</h4>
+      <div class="notion"><span class="num">2.2.1</span><span class="titre">Margin de la Card</span><span class="objectif">Ajouter <code>margin: EdgeInsets.symmetric(...)</code></span></div>
+      <div class="notion"><span class="num">2.2.2</span><span class="titre">Row dans la Card</span><span class="objectif">Ajouter un <code>Row</code></span></div>
+      <div class="notion"><span class="num">2.2.3</span><span class="titre">Image.asset</span><span class="objectif">Ajouter l'image à gauche</span></div>
+      <div class="notion"><span class="num">2.2.4</span><span class="titre">Dimensions image</span><span class="objectif">Ajouter <code>width: 60</code>, <code>height: 60</code></span></div>
+      <div class="notion"><span class="num">2.2.5</span><span class="titre">ClipRRect</span><span class="objectif">Arrondir l'image</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Image ajoutée à la carte.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 2.3 · Widget SongCard (partie 3)</h4>
+      <div class="notion"><span class="num">2.3.1</span><span class="titre">Expanded</span><span class="objectif">Envelopper la partie texte dans <code>Expanded</code></span></div>
+      <div class="notion"><span class="num">2.3.2</span><span class="titre">Column</span><span class="objectif">Ajouter une <code>Column</code></span></div>
+      <div class="notion"><span class="num">2.3.3</span><span class="titre">Text du titre</span><span class="objectif">Afficher <code>song.titre</code> en gras</span></div>
+      <div class="notion"><span class="num">2.3.4</span><span class="titre">Text de l'artiste</span><span class="objectif">Afficher <code>song.artiste</code> en gris</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> SongCard complète.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 2.4 · Page d'accueil (partie 1)</h4>
+      <div class="notion"><span class="num">2.4.1</span><span class="titre">Créer home_page.dart</span><span class="objectif">Créer <code>pages/home/home_page.dart</code></span></div>
+      <div class="notion"><span class="num">2.4.2</span><span class="titre">StatefulWidget</span><span class="objectif">Créer <code>HomePage extends StatefulWidget</code></span></div>
+      <div class="notion"><span class="num">2.4.3</span><span class="titre">_HomePageState</span><span class="objectif">Créer la classe d'état</span></div>
+      <div class="notion"><span class="num">2.4.4</span><span class="titre">Scaffold</span><span class="objectif">Retourner <code>Scaffold</code> avec <code>AppBar</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> HomePage structure prête.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 2.5 · Page d'accueil (partie 2)</h4>
+      <div class="notion"><span class="num">2.5.1</span><span class="titre">ListView.builder</span><span class="objectif">Ajouter <code>ListView.builder</code> dans le body</span></div>
+      <div class="notion"><span class="num">2.5.2</span><span class="titre">itemCount</span><span class="objectif">Définir <code>itemCount: localSongs.length</code></span></div>
+      <div class="notion"><span class="num">2.5.3</span><span class="titre">itemBuilder</span><span class="objectif">Retourner <code>SongCard(song: localSongs[index])</code></span></div>
+      <div class="notion"><span class="num">2.5.4</span><span class="titre">Tester</span><span class="objectif">Vérifier l'affichage des 5 chansons</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Liste des chansons affichée.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 3 -->
+  <div class="module">
+    <h3>🎵 Module 3 · Lecteur Audio (local)</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Lecture, pause, seek avec just_audio et assets locaux.</div>
+    <div class="rendu">✅ Rendu : Lecteur audio fonctionnel hors ligne</div>
+
+    <div class="lecon">
+      <h4>Leçon 3.1 · Page de lecture (partie 1)</h4>
+      <div class="notion"><span class="num">3.1.1</span><span class="titre">Créer song_page.dart</span><span class="objectif">Créer <code>pages/home/song_page.dart</code></span></div>
+      <div class="notion"><span class="num">3.1.2</span><span class="titre">StatefulWidget</span><span class="objectif">Créer <code>SongPage extends StatefulWidget</code></span></div>
+      <div class="notion"><span class="num">3.1.3</span><span class="titre">Paramètre song</span><span class="objectif">Ajouter <code>final Song song;</code></span></div>
+      <div class="notion"><span class="num">3.1.4</span><span class="titre">Scaffold</span><span class="objectif">Retourner <code>Scaffold</code> avec <code>AppBar</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> SongPage structure prête.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 3.2 · Page de lecture (partie 2)</h4>
+      <div class="notion"><span class="num">3.2.1</span><span class="titre">Variable _audioPlayer</span><span class="objectif">Déclarer <code>late AudioPlayer _audioPlayer;</code></span></div>
+      <div class="notion"><span class="num">3.2.2</span><span class="titre">Variable _isPlaying</span><span class="objectif">Déclarer <code>bool _isPlaying = false;</code></span></div>
+      <div class="notion"><span class="num">3.2.3</span><span class="titre">Variable _position</span><span class="objectif">Déclarer <code>Duration _position = Duration.zero;</code></span></div>
+      <div class="notion"><span class="num">3.2.4</span><span class="titre">Variable _duration</span><span class="objectif">Déclarer <code>Duration _duration = Duration.zero;</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Variables d'état déclarées.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 3.3 · Page de lecture (partie 3)</h4>
+      <div class="notion"><span class="num">3.3.1</span><span class="titre">initState</span><span class="objectif">Surcharger <code>initState()</code></span></div>
+      <div class="notion"><span class="num">3.3.2</span><span class="titre">Créer AudioPlayer</span><span class="objectif">Instancier <code>_audioPlayer = AudioPlayer();</code></span></div>
+      <div class="notion"><span class="num">3.3.3</span><span class="titre">Charger l'asset</span><span class="objectif">Appeler <code>_audioPlayer.setAsset(song.audioUrl);</code></span></div>
+      <div class="notion"><span class="num">3.3.4</span><span class="titre">Écouter la position</span><span class="objectif">S'abonner à <code>positionStream</code></span></div>
+      <div class="notion"><span class="num">3.3.5</span><span class="titre">Mettre à jour _position</span><span class="objectif">Appeler <code>setState</code> à chaque position</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Le lecteur est initialisé.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 3.4 · UI du lecteur (partie 1)</h4>
+      <div class="notion"><span class="num">3.4.1</span><span class="titre">Column principale</span><span class="objectif">Ajouter une <code>Column</code> dans le body</span></div>
+      <div class="notion"><span class="num">3.4.2</span><span class="titre">Image.asset</span><span class="objectif">Afficher la pochette en grand</span></div>
+      <div class="notion"><span class="num">3.4.3</span><span class="titre">Dimensions</span><span class="objectif">Ajouter <code>width: 250</code>, <code>height: 250</code></span></div>
+      <div class="notion"><span class="num">3.4.4</span><span class="titre">Text titre</span><span class="objectif">Afficher le titre</span></div>
+      <div class="notion"><span class="num">3.4.5</span><span class="titre">Text artiste</span><span class="objectif">Afficher l'artiste</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Informations affichées.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 3.5 · UI du lecteur (partie 2)</h4>
+      <div class="notion"><span class="num">3.5.1</span><span class="titre">Slider de progression</span><span class="objectif">Ajouter un <code>Slider</code></span></div>
+      <div class="notion"><span class="num">3.5.2</span><span class="titre">Value et max</span><span class="objectif">Utiliser <code>_position.inSeconds</code> et <code>_duration.inSeconds</code></span></div>
+      <div class="notion"><span class="num">3.5.3</span><span class="titre">onChanged</span><span class="objectif">Appeler <code>_audioPlayer.seek()</code></span></div>
+      <div class="notion"><span class="num">3.5.4</span><span class="titre">Bouton Play/Pause</span><span class="objectif">Ajouter un <code>IconButton</code> qui toggle</span></div>
+      <div class="notion"><span class="num">3.5.5</span><span class="titre">Logique toggle</span><span class="objectif">Si <code>_isPlaying</code> → pause, sinon → play</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Lecteur complet et fonctionnel.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 4 -->
+  <div class="module">
+    <h3>🧭 Module 4 · Navigation</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Naviguer de HomePage vers SongPage.</div>
+    <div class="rendu">✅ Rendu : Navigation fluide entre les écrans</div>
+
+    <div class="lecon">
+      <h4>Leçon 4.1 · Navigation de base</h4>
+      <div class="notion"><span class="num">4.1.1</span><span class="titre">GestureDetector</span><span class="objectif">Envelopper SongCard dans un <code>GestureDetector</code></span></div>
+      <div class="notion"><span class="num">4.1.2</span><span class="titre">onTap</span><span class="objectif">Ajouter <code>onTap: () { ... }</code></span></div>
+      <div class="notion"><span class="num">4.1.3</span><span class="titre">Navigator.push</span><span class="objectif">Ajouter <code>Navigator.push(context, MaterialPageRoute(...))</code></span></div>
+      <div class="notion"><span class="num">4.1.4</span><span class="titre">Passer song</span><span class="objectif">Passer <code>song: song</code> à <code>SongPage</code></span></div>
+      <div class="notion"><span class="num">4.1.5</span><span class="titre">Tester la navigation</span><span class="objectif">Cliquer sur une carte → ouvrir SongPage</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Navigation fonctionnelle.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 4.2 · Main.dart et route initiale</h4>
+      <div class="notion"><span class="num">4.2.1</span><span class="titre">Importer HomePage</span><span class="objectif">Ajouter l'import dans <code>main.dart</code></span></div>
+      <div class="notion"><span class="num">4.2.2</span><span class="titre">Définir home</span><span class="objectif">Définir <code>home: HomePage()</code></span></div>
+      <div class="notion"><span class="num">4.2.3</span><span class="titre">ThemeData</span><span class="objectif">Ajouter un thème sombre Spotify</span></div>
+      <div class="notion"><span class="num">4.2.4</span><span class="titre">Tester</span><span class="objectif">Vérifier le lancement</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Route initiale et thème configurés.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 5 -->
+  <div class="module">
+    <h3>❤️ Module 5 · Favoris (local)</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Ajouter/retirer des favoris en mémoire.</div>
+    <div class="rendu">✅ Rendu : Bouton favori + page dédiée</div>
+
+    <div class="lecon">
+      <h4>Leçon 5.1 · Stockage en mémoire</h4>
+      <div class="notion"><span class="num">5.1.1</span><span class="titre">Créer favorites_manager.dart</span><span class="objectif">Créer <code>services/favorites_manager.dart</code></span></div>
+      <div class="notion"><span class="num">5.1.2</span><span class="titre">Liste statique</span><span class="objectif">Déclarer <code>static List&lt;Song&gt; favorites = [];</code></span></div>
+      <div class="notion"><span class="num">5.1.3</span><span class="titre">Méthode add</span><span class="objectif">Implémenter <code>add(Song)</code></span></div>
+      <div class="notion"><span class="num">5.1.4</span><span class="titre">Méthode remove</span><span class="objectif">Implémenter <code>remove(Song)</code></span></div>
+      <div class="notion"><span class="num">5.1.5</span><span class="titre">Méthode isFavorite</span><span class="objectif">Implémenter <code>isFavorite(Song)</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Manager de favoris prêt.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 5.2 · Bouton favori dans SongCard</h4>
+      <div class="notion"><span class="num">5.2.1</span><span class="titre">Ajouter IconButton</span><span class="objectif">Ajouter un <code>IconButton</code> à droite</span></div>
+      <div class="notion"><span class="num">5.2.2</span><span class="titre">Icône conditionnelle</span><span class="objectif"><code>Icons.favorite</code> ou <code>Icons.favorite_border</code></span></div>
+      <div class="notion"><span class="num">5.2.3</span><span class="titre">Couleur conditionnelle</span><span class="objectif">Rouge si favori, gris sinon</span></div>
+      <div class="notion"><span class="num">5.2.4</span><span class="titre">onPressed toggle</span><span class="objectif">Ajouter/retirer via le manager</span></div>
+      <div class="notion"><span class="num">5.2.5</span><span class="titre">setState</span><span class="objectif">Rafraîchir l'UI après toggle</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Bouton favori fonctionnel.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 5.3 · Page des favoris</h4>
+      <div class="notion"><span class="num">5.3.1</span><span class="titre">Créer favorites_page.dart</span><span class="objectif">Créer <code>pages/favorites_page.dart</code></span></div>
+      <div class="notion"><span class="num">5.3.2</span><span class="titre">Scaffold + AppBar</span><span class="objectif">Structure de base</span></div>
+      <div class="notion"><span class="num">5.3.3</span><span class="titre">ListView.builder</span><span class="objectif">Afficher <code>FavoritesManager.favorites</code></span></div>
+      <div class="notion"><span class="num">5.3.4</span><span class="titre">Message si vide</span><span class="objectif">Afficher "Aucun favori" si liste vide</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Page des favoris fonctionnelle.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 6 -->
+  <div class="module">
+    <h3>📋 Module 6 · Playlists (local)</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Créer des playlists en mémoire.</div>
+    <div class="rendu">✅ Rendu : Création de playlists fonctionnelle</div>
+
+    <div class="lecon">
+      <h4>Leçon 6.1 · Modèle Playlist</h4>
+      <div class="notion"><span class="num">6.1.1</span><span class="titre">Créer playlist.dart</span><span class="objectif">Créer <code>models/playlist.dart</code></span></div>
+      <div class="notion"><span class="num">6.1.2</span><span class="titre">Classe Playlist</span><span class="objectif">Écrire <code>class Playlist { }</code></span></div>
+      <div class="notion"><span class="num">6.1.3</span><span class="titre">Propriétés</span><span class="objectif">Ajouter <code>id</code>, <code>nom</code>, <code>songs</code></span></div>
+      <div class="notion"><span class="num">6.1.4</span><span class="titre">Constructeur</span><span class="objectif">Ajouter le constructeur</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Modèle Playlist créé.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 6.2 · Gestionnaire de playlists</h4>
+      <div class="notion"><span class="num">6.2.1</span><span class="titre">Créer playlists_manager.dart</span><span class="objectif">Créer <code>services/playlists_manager.dart</code></span></div>
+      <div class="notion"><span class="num">6.2.2</span><span class="titre">Liste statique</span><span class="objectif">Déclarer <code>static List&lt;Playlist&gt; playlists = [];</code></span></div>
+      <div class="notion"><span class="num">6.2.3</span><span class="titre">Méthode createPlaylist</span><span class="objectif">Implémenter <code>createPlaylist(String nom)</code></span></div>
+      <div class="notion"><span class="num">6.2.4</span><span class="titre">Méthode addSong</span><span class="objectif">Implémenter <code>addSong(playlistId, Song)</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Manager de playlists prêt.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 6.3 · Page des playlists</h4>
+      <div class="notion"><span class="num">6.3.1</span><span class="titre">Créer playlists_page.dart</span><span class="objectif">Créer <code>pages/playlists_page.dart</code></span></div>
+      <div class="notion"><span class="num">6.3.2</span><span class="titre">Scaffold + AppBar</span><span class="objectif">Structure de base</span></div>
+      <div class="notion"><span class="num">6.3.3</span><span class="titre">ListView des playlists</span><span class="objectif">Afficher <code>PlaylistsManager.playlists</code></span></div>
+      <div class="notion"><span class="num">6.3.4</span><span class="titre">FloatingActionButton</span><span class="objectif">Ajouter un bouton + pour créer</span></div>
+      <div class="notion"><span class="num">6.3.5</span><span class="titre">Dialog de création</span><span class="objectif">Afficher un <code>AlertDialog</code> avec TextField</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Page des playlists fonctionnelle.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PHASE 2 – EN LIGNE                                           -->
+  <!-- ============================================================ -->
+  <h2>🌐 PHASE 2 · MODULES EN LIGNE (7 à 10)</h2>
+  <div class="phase phase-en-ligne">
+    <div class="phase-titre">🌐 Connexion Internet requise</div>
+    <div class="phase-desc">Ces modules nécessitent Firebase et/ou Figma. À faire en une seule fois avec une connexion stable.</div>
+  </div>
+
+  <!-- MODULE 7 -->
+  <div class="module" style="border-left-color:#e2a53a;">
+    <h3>🔐 Module 7 · Firebase Auth</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Inscription, connexion, déconnexion avec Firebase.</div>
+    <div class="rendu">✅ Rendu : Authentification fonctionnelle</div>
+
+    <div class="lecon">
+      <h4>Leçon 7.1 · Configuration Firebase</h4>
+      <div class="notion"><span class="num">7.1.1</span><span class="titre">Créer projet Firebase</span><span class="objectif">Sur console.firebase.google.com</span></div>
+      <div class="notion"><span class="num">7.1.2</span><span class="titre">Activer Auth Email</span><span class="objectif">Méthode Email/Mot de passe</span></div>
+      <div class="notion"><span class="num">7.1.3</span><span class="titre">Ajouter dépendances</span><span class="objectif"><code>firebase_core</code>, <code>firebase_auth</code></span></div>
+      <div class="notion"><span class="num">7.1.4</span><span class="titre">flutterfire configure</span><span class="objectif">Exécuter la commande</span></div>
+      <div class="notion"><span class="num">7.1.5</span><span class="titre">Initialiser Firebase</span><span class="objectif">Dans <code>main()</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Firebase initialisé.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 7.2 · Service Auth</h4>
+      <div class="notion"><span class="num">7.2.1</span><span class="titre">Créer auth_service.dart</span><span class="objectif">Créer <code>services/auth_service.dart</code></span></div>
+      <div class="notion"><span class="num">7.2.2</span><span class="titre">Méthode signUp</span><span class="objectif">Implémenter <code>signUp()</code></span></div>
+      <div class="notion"><span class="num">7.2.3</span><span class="titre">Méthode signIn</span><span class="objectif">Implémenter <code>signIn()</code></span></div>
+      <div class="notion"><span class="num">7.2.4</span><span class="titre">Méthode signOut</span><span class="objectif">Implémenter <code>signOut()</code></span></div>
+      <div class="notion"><span class="num">7.2.5</span><span class="titre">Gestion erreurs</span><span class="objectif"><code>try/catch FirebaseAuthException</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Service Auth prêt.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 7.3 · Pages d'authentification</h4>
+      <div class="notion"><span class="num">7.3.1</span><span class="titre">Créer sign_in_page.dart</span><span class="objectif">Créer <code>pages/auth/sign_in_page.dart</code></span></div>
+      <div class="notion"><span class="num">7.3.2</span><span class="titre">Champs email/password</span><span class="objectif">Ajouter 2 <code>TextField</code></span></div>
+      <div class="notion"><span class="num">7.3.3</span><span class="titre">Bouton connexion</span><span class="objectif">Appeler <code>authService.signIn()</code></span></div>
+      <div class="notion"><span class="num">7.3.4</span><span class="titre">Créer sign_up_page.dart</span><span class="objectif">Créer <code>pages/auth/sign_up_page.dart</code></span></div>
+      <div class="notion"><span class="num">7.3.5</span><span class="titre">Champs inscription</span><span class="objectif">Email + password + confirmation</span></div>
+      <div class="notion"><span class="num">7.3.6</span><span class="titre">Bouton inscription</span><span class="objectif">Appeler <code>authService.signUp()</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Pages Auth fonctionnelles.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 7.4 · Profil et déconnexion</h4>
+      <div class="notion"><span class="num">7.4.1</span><span class="titre">Créer profile_page.dart</span><span class="objectif">Créer <code>pages/profile_page.dart</code></span></div>
+      <div class="notion"><span class="num">7.4.2</span><span class="titre">Afficher email</span><span class="objectif">Récupérer l'utilisateur connecté</span></div>
+      <div class="notion"><span class="num">7.4.3</span><span class="titre">Bouton déconnexion</span><span class="objectif">Appeler <code>authService.signOut()</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Déconnexion fonctionnelle.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 8 -->
+  <div class="module" style="border-left-color:#e2a53a;">
+    <h3>☁️ Module 8 · Firestore</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Remplacer les données locales par Firestore.</div>
+    <div class="rendu">✅ Rendu : Données depuis Firestore</div>
+
+    <div class="lecon">
+      <h4>Leçon 8.1 · Configuration Firestore</h4>
+      <div class="notion"><span class="num">8.1.1</span><span class="titre">Ajouter cloud_firestore</span><span class="objectif">Dans <code>pubspec.yaml</code></span></div>
+      <div class="notion"><span class="num">8.1.2</span><span class="titre">Activer Firestore</span><span class="objectif">Console Firebase</span></div>
+      <div class="notion"><span class="num">8.1.3</span><span class="titre">Collection songs</span><span class="objectif">Créer les 3 documents existants</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Firestore configuré.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 8.2 · Service Firestore</h4>
+      <div class="notion"><span class="num">8.2.1</span><span class="titre">Créer firestore_service.dart</span><span class="objectif">Créer le service</span></div>
+      <div class="notion"><span class="num">8.2.2</span><span class="titre">Méthode getSongs</span><span class="objectif">Récupérer la collection</span></div>
+      <div class="notion"><span class="num">8.2.3</span><span class="titre">Convertir en Song</span><span class="objectif">Mapper les documents</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Service Firestore prêt.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 8.3 · Bascule des données</h4>
+      <div class="notion"><span class="num">8.3.1</span><span class="titre">Bascule HomePage</span><span class="objectif">Utiliser <code>FirestoreService.getSongs()</code></span></div>
+      <div class="notion"><span class="num">8.3.2</span><span class="titre">Bascule Favoris</span><span class="objectif">Écrire dans Firestore</span></div>
+      <div class="notion"><span class="num">8.3.3</span><span class="titre">Bascule Playlists</span><span class="objectif">Écrire dans Firestore</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Données depuis Firestore.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 8.4 · Stabilisation locale avant Firebase Storage</h4>
+      <div class="notion"><span class="num">8.4.1</span><span class="titre">Diagnostiquer et corriger le lecteur audio</span><span class="objectif">Lire chaque chanson locale, avec erreurs de chargement et de lecture visibles</span></div>
+      <div class="notion"><span class="num">8.4.2</span><span class="titre">Ajouter des chansons aux playlists</span><span class="objectif">Bouton + sur chaque playlist, avec indication claire et sélection des chansons</span></div>
+      <div class="notion"><span class="num">8.4.3</span><span class="titre">Lire une playlist</span><span class="objectif">Lire tous ses morceaux successivement et démarrer à partir d'un morceau choisi au hasard</span></div>
+      <div class="notion"><span class="num">8.4.4</span><span class="titre">Choisir le mode de répétition</span><span class="objectif">Activer ou désactiver la lecture en boucle et rendre le mode visible</span></div>
+      <div class="notion"><span class="num">8.4.5</span><span class="titre">Harmoniser les boîtes de dialogue</span><span class="objectif">Fond bleu ciel clair, textes importants roses, boutons roses avec texte blanc, textes secondaires noirs</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Lecture audio, playlists et dialogues vérifiés avant le module 9.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 9 -->
+  <div class="module" style="border-left-color:#e2a53a;">
+    <h3>📁 Module 9 · Firebase Storage</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Uploader les audios vers Firebase Storage.</div>
+    <div class="rendu">✅ Rendu : Audio en streaming</div>
+
+    <div class="lecon">
+      <h4>Leçon 9.1 · Configuration Storage</h4>
+      <div class="notion"><span class="num">9.1.1</span><span class="titre">Ajouter firebase_storage</span><span class="objectif">Dans <code>pubspec.yaml</code></span></div>
+      <div class="notion"><span class="num">9.1.2</span><span class="titre">Activer Storage</span><span class="objectif">Console Firebase</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Storage activé.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 9.2 · Service Storage</h4>
+      <div class="notion"><span class="num">9.2.1</span><span class="titre">Créer storage_service.dart</span><span class="objectif">Créer le service</span></div>
+      <div class="notion"><span class="num">9.2.2</span><span class="titre">Méthode uploadAudio</span><span class="objectif">Uploader un fichier</span></div>
+      <div class="notion"><span class="num">9.2.3</span><span class="titre">Méthode getAudioUrl</span><span class="objectif">Récupérer l'URL publique</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Service Storage prêt.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 9.3 · Bascule de la lecture</h4>
+      <div class="notion"><span class="num">9.3.1</span><span class="titre">setUrl</span><span class="objectif">Remplacer <code>setAsset</code> par <code>setUrl</code></span></div>
+      <div class="notion"><span class="num">9.3.2</span><span class="titre">Image.network</span><span class="objectif">Remplacer <code>Image.asset</code> par <code>Image.network</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Audio en streaming.</div>
+    </div>
+  </div>
+
+  <!-- MODULE 10 -->
+  <div class="module" style="border-left-color:#e2a53a;">
+    <h3>🚀 Module 10 · Finition et Transfert</h3>
+    <div class="cadrage"><strong>Cadrage :</strong> Polir, tester, transférer.</div>
+    <div class="rendu">✅ Rendu : Application prête à être démontrée</div>
+
+    <div class="lecon">
+      <h4>Leçon 10.1 · Polissage</h4>
+      <div class="notion"><span class="num">10.1.1</span><span class="titre">Tester inscription</span><span class="objectif">Parcours complet</span></div>
+      <div class="notion"><span class="num">10.1.2</span><span class="titre">Tester connexion</span><span class="objectif">Parcours complet</span></div>
+      <div class="notion"><span class="num">10.1.3</span><span class="titre">Tester lecture</span><span class="objectif">Play/pause/seek</span></div>
+      <div class="notion"><span class="num">10.1.4</span><span class="titre">Tester favoris</span><span class="objectif">Ajout/retrait</span></div>
+      <div class="notion"><span class="num">10.1.5</span><span class="titre">Optimiser rebuilds</span><span class="objectif">Ajouter <code>const</code></span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Application polie.</div>
+    </div>
+
+    <div class="lecon">
+      <h4>Leçon 10.2 · Transfert (Étape 4 PAIA)</h4>
+      <div class="notion"><span class="num">10.2.1</span><span class="titre">Recevoir un objectif</span><span class="objectif">Ex: app de podcast</span></div>
+      <div class="notion"><span class="num">10.2.2</span><span class="titre">Écrire les écrans</span><span class="objectif">Liste des écrans</span></div>
+      <div class="notion"><span class="num">10.2.3</span><span class="titre">Structure des dossiers</span><span class="objectif">Écrire la structure</span></div>
+      <div class="notion"><span class="num">10.2.4</span><span class="titre">3 premières notions</span><span class="objectif">Écrire l'Étape 1</span></div>
+      <div class="checkpoint"><strong>✓ Checkpoint :</strong> Transfert validé.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><strong>PAIA · Programme Spotify Clone (Option A)</strong></p>
+    <p style="margin-top:4px; font-size:0.85rem;">11 modules · 40 leçons · 245 notions · ~22h</p>
+    <div class="badge">#programmer sans subir</div>
+  </div>
+
+</div>
+</body>
+</html>
